@@ -55,8 +55,9 @@ class HomeController extends Controller
     {
       if (request()->ajax()) {
         $data = Post::where('id',$id)->pluck('file_path')->first();
+        $type = Post::where('id',$id)->pluck('type')->first();
         // return $data;
-        return response(['data' => $data], Response::HTTP_OK);
+        return response(['data' => $data,'type' => $type], Response::HTTP_OK);
       }
     }
     public function memeDestroy(Request $request)
