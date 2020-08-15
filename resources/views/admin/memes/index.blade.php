@@ -120,6 +120,12 @@ $(document).ready(function() {
         ]
 
         });
+
+        function closeAudio() {
+        $('#link_view').attr('src', '');
+
+        
+            }
 //   $('#summernoteEditor').summernote({
 //             height: 400,
 //             tabsize: 2
