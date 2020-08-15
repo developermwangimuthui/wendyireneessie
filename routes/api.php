@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/updateprofle', 'UserAuthController@updateProfile');
 
         Route::get('/', 'PostController@index');
+        Route::get('/2', 'PostController@index2');
 
         Route::post('/post/upload', 'PostController@store');
         Route::get('/post/index', 'PostController@index');

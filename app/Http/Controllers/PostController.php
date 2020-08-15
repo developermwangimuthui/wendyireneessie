@@ -23,6 +23,35 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index2()
+    {
+        $user = Auth::user();
+        $merged = [];
+        if ($this->isNew($user)) {
+            $trendingPost = $this->trending(3, 70);
+            $latest = $this->latestPosts(30);
+            $merged = $latest->merge($trendingPost);
+            // dd('new');
+        } else {
+            // dd('me');
+            $hashTags = $this->postUserTags($user, 40);
+            $followingsPost = $this->getUserFollowingsPosts($user, 30);
+            $latest2 = $this->latestPosts(30);
+
+            $merged = $latest2->merge($hashTags)->merge($followingsPost);
+        }
+
+        $result = $merged->unique();
+        // return $result;
+
+        $posts_results = PostResource::collection($result);
+
+        return response([
+            'error' => False,
+            'message' => 'Success',
+            'post' => $posts_results
+        ], Response::HTTP_OK);
+    }
     public function index()
     {
         $user = Auth::user();
