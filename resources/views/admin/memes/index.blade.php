@@ -107,7 +107,7 @@ $(document).ready(function() {
                       return "<img src={{ URL::to('') }}/Postimages/"+data+ " width='70' class='img-thumbnail view ' id='"+row['id']+"' />" ; 
                           }else{
 
-                      return "<img src={{ URL::to('') }}/Postvideos/"+data+ " width='70' class='img-thumbnail ' />" ; 
+                      return "<img src={{ URL::to('') }}/Postvideos/"+data+ " width='70' class='img-thumbnail view ' id='"+row['id']+"'/>" ; 
                           }},orderable: false}, 
          {data: 'user.firstname', name: 'user.firstname',render: function ( data, type, row ) {
             return data + '  ' + row['user.lastname'];
@@ -232,10 +232,10 @@ $(document).on('click', '.view', function(){
            url:"/meme-show/"+id,
            dataType:"json",
            success:function(html){
-            console.log(html.data);
+            console.log(html);
 
             $('#link_view').attr('src', '/Postimages/'+ html.data);
-            $('.modal-title').text("Audio Preview");
+            $('.modal-title').text("Preview");
             $('#viewmodal').modal({backdrop: 'static', keyboard: false}) 
             $('#viewmodal').modal('show');
            }
