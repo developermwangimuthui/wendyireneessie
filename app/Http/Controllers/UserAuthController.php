@@ -142,10 +142,22 @@ class UserAuthController extends Controller
             }
             if ($request->profile_pic_path != null) {
                 if (!$this->validateString($request->profile_pic_path)) {
-                    return response(["message" => "invalid base64 image string!"]);
+                    return response([
+                        'error' => true,
+                        'message' => 'invalid base64 image string!',
+                    ], Response::HTTP_CREATED);
                 } else {
                     $user->profile_pic_path = $this->moveUploadedFile($request->profile_pic_path, "UserProfilePics");
                 }
+            }else{
+
+            $user->update();
+
+            return response([
+                'error' => false,
+                'message' => 'Profile updated successfully',
+                'user' => new UserLoginResoure($user)
+            ], Response::HTTP_CREATED);
             }
             $user->update();
 
