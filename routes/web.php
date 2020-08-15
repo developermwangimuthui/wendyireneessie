@@ -69,3 +69,8 @@ Route::get('/migrate', function () {
     return 'Success';
     // return what you want
 });
+Route::get('/config/cache', function () {
+    $exitCode = Artisan::call('config:cache');
+    return 'Success';
+    // return what you want
+});
