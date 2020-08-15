@@ -27,11 +27,10 @@ Route::prefix('v1')->group(function () {
     Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/updateprofle', 'UserAuthController@updateProfile');
 
-        Route::get('/', 'PostController@index');
-        Route::get('/2', 'PostController@index2');
 
         Route::post('/post/upload', 'PostController@store');
         Route::get('/post/index', 'PostController@index');
+        Route::get('/post/index2', 'PostController@index2');
         Route::get('/post/like/{id}', 'PostController@LikePost');
         Route::get('/post/share/{id}', 'ShareController@store');
         Route::get('/post/download/{id}', 'DownlodController@store');
