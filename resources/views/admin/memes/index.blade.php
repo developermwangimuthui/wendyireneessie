@@ -110,7 +110,15 @@ $(document).ready(function() {
                       return "<img src={{ URL::to('') }}/Postvideos/"+data+ " width='70' class='img-thumbnail view ' id='"+row['id']+"'/>" ; 
                           }},orderable: false}, 
          {data: 'user.firstname', name: 'user.firstname',render: function ( data, type, row ) {
-            return data + '  ' + row['user.lastname'];
+             var name = '';
+             if (row['user.firstname'] != null) {
+                 name = row['user.firstname']+''+ row['user.lastname'];                 
+             }else if (row['user.username'] !=null) {
+                 name = row['user.username']                 
+             } else {                 
+                name = row['user.id']  
+             }
+            return name;
          }},
         {data: 'user.email', name: 'user.email'},
         {data: 'tags', name: 'tags'},
@@ -125,7 +133,7 @@ $(document).ready(function() {
         $('#link_view').attr('src', '');
 
         
-            }
+        }
 //   $('#summernoteEditor').summernote({
 //             height: 400,
 //             tabsize: 2
