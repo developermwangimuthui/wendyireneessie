@@ -51,6 +51,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/tags-posts/{tag}', 'PostController@hashtagPosts');
         Route::get('/search-posts/{query}', 'PostController@normalSearch');
         Route::post('/report-user/{user_id}', 'PostController@reportUser');
-        Route::get('/report-post/{post_id}', 'PostController@reportPost');
+        Route::post('/report-post/{post_id}', 'PostController@reportPost');
     });
 });

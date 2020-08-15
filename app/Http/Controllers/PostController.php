@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Post;
 use App\Report;
+use App\ReportPost;
 use DB;
 use App\User;
 use Illuminate\Http\Request;
@@ -306,7 +307,7 @@ class PostController extends Controller
         }
     }
 
-    public function reportPost($post_id)
+    public function reportPost(Request $request,$post_id)
     {
         
         $postexists = Post::where('id',$post_id)->exists();
@@ -315,10 +316,17 @@ class PostController extends Controller
             $post = Post::where('id',$post_id)->first();
             $post->is_reported = 1;
             $post->update(); 
+           $reporedPost = new ReportPost();
+           $reporedPost->reporter_id=Auth::user()->id;
+           $reporedPost->post_id=$post_id;
+           $reporedPost->message = $request->message;
+        if ($reporedPost->save()) {
+        
             return response([
                 'error' => False,
                 'message' => 'Post reported'
             ], Response::HTTP_OK);
+
 
         } else {
             return response([
@@ -327,6 +335,7 @@ class PostController extends Controller
             ], Response::HTTP_OK);
         }    
            
+    }
     }
 
     public function postFromRequestPostId($post_id)
