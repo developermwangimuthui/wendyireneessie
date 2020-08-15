@@ -36,7 +36,7 @@ class HomeController extends Controller
     }
     public function index(Request $request)
     {
-        if ($request->ajax()) {
+        // if ($request->ajax()) {
             $memes = Post::with('user')->get();
             return Datatables::of($memes)
                 ->addIndexColumn()
@@ -46,7 +46,7 @@ class HomeController extends Controller
                 })
                 ->rawColumns(['action'])
                 ->make(true);
-        }
+        // }
 // dd($categories);
         return view ('admin.memes.index');
 
