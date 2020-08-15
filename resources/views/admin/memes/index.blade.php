@@ -233,8 +233,12 @@ $(document).on('click', '.view', function(){
            dataType:"json",
            success:function(html){
             console.log(html);
-
+            if (html.type=='image') {                
             $('#link_view').attr('src', '/Postimages/'+ html.data);
+            } else {
+            $('#link_view').attr('src', '/Postvideos/'+ html.data);                
+            }
+
             $('.modal-title').text("Preview");
             $('#viewmodal').modal({backdrop: 'static', keyboard: false}) 
             $('#viewmodal').modal('show');
