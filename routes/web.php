@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true, 'register' => false,'login' => false]);
+// Auth::routes(['verify' => true, 'register' => false,'login' => false]);
 Route::match(['get', 'post'], 'login', function(){
     return redirect('/');
 });
