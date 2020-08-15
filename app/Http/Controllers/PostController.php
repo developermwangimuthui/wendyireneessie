@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Post;
+use App\Report;
 use DB;
 use App\User;
 use Illuminate\Http\Request;
@@ -278,7 +279,7 @@ class PostController extends Controller
         }
     }
 
-    public function reportUser($user_id)
+    public function reportUser(Request $request,$user_id)
     {
         $user_exists = User::where('id', $user_id)->exists();
         
@@ -286,20 +287,24 @@ class PostController extends Controller
             $user = User::where('id', $user_id)->first();
             $user->is_reported = 1;
             $user->update(); 
-            return response([
-                'error' => False,
-                'message' => 'User reported'
-            ], Response::HTTP_OK);
-
-        } else {
+            $report = new Report();
+            $report->reporter_id = Auth::user()->id;
+            $report->reported_id= $user_id;
+            $report->message=$request->message;
+            if ($report->save()) {
+                return response([
+                    'error' => False,
+                    'message' => 'User reported'
+                ], Response::HTTP_OK);
+            }  else {
             return response([
                 'error' => true,
                 'message' => 'The user is not found.',
             ], Response::HTTP_OK);
         }    
           
+        }
     }
-
 
     public function reportPost($post_id)
     {
