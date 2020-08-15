@@ -28,9 +28,11 @@ class PostController extends Controller
         $user = Auth::user();
         $merged = [];
         if ($this->isNew($user)) {
-            $trendingPost = $this->trending(3, 70);
+            $trendingPost = $this->trending(30, 70);
             $latest = $this->latestPosts(30);
             $merged = $latest->merge($trendingPost);
+            
+
             // dd('new');
         } else {
             // dd('me');
@@ -39,10 +41,24 @@ class PostController extends Controller
             $latest2 = $this->latestPosts(30);
 
             $merged = $latest2->merge($hashTags)->merge($followingsPost);
+            
+
         }
 
         $result = $merged->unique();
-        // return $result;
+        $total=$result->count();
+        $remaining_posts = 100- $total;
+        $post_limit=10;
+      while ($remaining_posts>0) {
+          $getExtraPosts=$this->latestPosts($post_limit);
+           $result = $result->merge($getExtraPosts);
+            $result=$result->unique();
+        $total=$result->count();
+
+        $remaining_posts = 100- $total;
+        $post_limit +=10;
+      }
+         
 
         $posts_results = PostResource::collection($result);
 
@@ -137,7 +153,7 @@ class PostController extends Controller
     {
         $user_likes = $user->likes()->count();
         // dd($user_likes);
-        if ($user_likes <= 3) {
+        if ($user_likes <= 1) {
             return true;
         } else {
             return false;
