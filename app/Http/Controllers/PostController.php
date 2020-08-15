@@ -327,17 +327,23 @@ class PostController extends Controller
         $posts = Post::where('tags', 'like', '%' . $query_text . '%')
             ->orWhere('text', 'like', '%' . $query_text . '%')
             ->get();
-        $data = PostResource::collection($posts);
-        if (sizeof($data) > 0) {
+        $users=User::where('firstname', 'like', '%' . $query_text . '%')
+        ->orWhere('lastname', 'like', '%' . $query_text . '%')
+        ->orWhere('username', 'like', '%' . $query_text . '%')
+        ->get();
+        $posts = PostResource::collection($posts);
+        $users = UserResource::collection($users);
+        if (sizeof($posts) > 0 || sizeof($users) > 0) {
             return response([
                 'error' => False,
                 'message' => 'Success',
-                'post' => $data
+                'post' => $posts,
+                'user' => $users
             ], Response::HTTP_OK);
         } else {
             return response([
                 'error' => true,
-                'message' => 'No posts found',
+                'message' => 'No data found',
             ], Response::HTTP_OK);
         }
     }
