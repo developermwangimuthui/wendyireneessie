@@ -101,7 +101,7 @@ $(document).ready(function() {
 
         {data: 'action', name: 'action', orderable: false, searchable: false},
         {data:'file_path',name:'file_path',
-                      render: function(data, type, full, meta){
+                      render: function( data, type, row ) {
                           if (row['type']=='image') {
                               
                       return "<img src={{ URL::to('') }}/Postimages/"+data+ " width='70' class='img-thumbnail view ' id='"+row['id']+"' />" ; 
