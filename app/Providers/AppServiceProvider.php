@@ -15,10 +15,10 @@ class AppServiceProvider extends ServiceProvider
     {
     
             //savior for online server
-    //   $this -> app -> bind('path.public', function(){
-    //   return base_path('/../kenyasihami.co.ke');
+      $this -> app -> bind('path.public', function(){
+      return base_path('/../kenyasihami.co.ke');
       
-    //   });
+      });
     }
 
     /**
