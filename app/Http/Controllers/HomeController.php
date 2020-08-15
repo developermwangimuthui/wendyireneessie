@@ -41,7 +41,7 @@ class HomeController extends Controller
             return Datatables::of($memes)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-outline-warning btn-round waves-effect waves-light view" id="'. $data->id . '"><i class="fa fa-eye"></i></a> &nbsp;&nbsp; 
+                    return '
                     <a class="btn btn-outline-danger btn-round waves-effect waves-light name="delete" id="' . $data->id . '" onclick="memedelete(\'' . $data->id . '\')"><i class="icon-trash"></i>Delete</a>&nbsp;&nbsp;';
                 })
                 ->rawColumns(['action'])
