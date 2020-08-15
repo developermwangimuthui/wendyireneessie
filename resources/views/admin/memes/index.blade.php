@@ -102,7 +102,13 @@ $(document).ready(function() {
         {data: 'action', name: 'action', orderable: false, searchable: false},
         {data:'file_path',name:'file_path',
                       render: function(data, type, full, meta){
-                      return "<img src={{ URL::to('') }}/Postimages/"+data+ " width='70' class='img-thumbnail' />" ; },orderable: false}, 
+                          if (row['type']=='image') {
+                              
+                      return "<img src={{ URL::to('') }}/Postimages/"+data+ " width='70' class='img-thumbnail view ' id='"+row['id']+"' />" ; 
+                          }else{
+
+                      return "<img src={{ URL::to('') }}/Postvideos/"+data+ " width='70' class='img-thumbnail ' />" ; 
+                          }},orderable: false}, 
          {data: 'user.firstname', name: 'user.firstname',render: function ( data, type, row ) {
             return data + '  ' + row['user.lastname'];
          }},
