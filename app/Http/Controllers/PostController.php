@@ -53,7 +53,8 @@ class PostController extends Controller
       while ($remaining_posts>0) {
           $getExtraPosts=$this->latestPosts($post_limit);
            $result = $result->merge($getExtraPosts);
-            $result=$result->unique();
+            $result=$result->unique();          
+            $result= $result->shuffle();
         $total=$result->count();
 
         $remaining_posts = 100- $total;
