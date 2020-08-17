@@ -84,3 +84,8 @@ Route::get('/cache/clear', function () {
     return 'Success';
     // return what you want
 });
+Route::get('/config/clear', function () {
+    $exitCode = Artisan::call('config:clear');
+    return 'Success';
+    // return what you want
+});
