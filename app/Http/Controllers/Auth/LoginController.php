@@ -44,6 +44,8 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        dd('this');
+
         $credentials = [
             'email' => $request->email,
             'password' => $request->password
@@ -69,7 +71,6 @@ class LoginController extends Controller
 
 
         if (Auth::attempt($credentials, $request->remember)) {
-            dd('this');
 
             return redirect()->route('home');
         } else {
