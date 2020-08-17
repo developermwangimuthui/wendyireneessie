@@ -42,37 +42,38 @@ class LoginController extends Controller
     }
 
 
-    // public function login(Request $request)
-    // {
-    //     $credentials = [
-    //         'email' => $request->email,
-    //         'password' => $request->password
-    //     ];
+    public function login(Request $request)
+    {
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
 
 
-    //     $rules = [
-    //         'email'    => 'required|email',
-    //         'password' => [
-    //             'required',
-    //             'string',
-    //             'min:8',
-    //         ],
-    //     ];
-    //     $error = Validator::make($credentials, $rules);
+        $rules = [
+            'email'    => 'required|email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+            ],
+        ];
+        $error = Validator::make($credentials, $rules);
 
 
-    //     if ($error->fails()) {
-    //         return Response::json(['errors' => $error->errors()->all()]);
-    //     }
+        if ($error->fails()) {
+            return Response::json(['errors' => $error->errors()->all()]);
+        }
 
 
 
 
-    //     if (Auth::attempt($credentials, $request->remember)) {
+        if (Auth::attempt($credentials, $request->remember)) {
+            dd('this');
 
-    //         return redirect()->route('home');
-    //     } else {
-    //         return Response::json(['warning' => 'Invalid Email or Password']);
-    //     }
-    // }
+            return redirect()->route('home');
+        } else {
+            return Response::json(['warning' => 'Invalid Email or Password']);
+        }
+    }
 }
