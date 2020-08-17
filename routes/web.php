@@ -19,9 +19,9 @@ Route::get('/', function () {
 });
 
 // Auth::routes(['verify' => true, 'register' => false,'login' => false]);
-Route::match(['get', 'post'], 'login', function(){
-    return redirect('/');
-});
+// Route::match(['get', 'post'], 'login', function(){
+//     return redirect('/');
+// });
 
 Route::get('/', 'HomeController@redirectPlayStore')->name('redirectPlayStore');
 
