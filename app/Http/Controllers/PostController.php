@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
-use App\Http\Resources\UserResource;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Post;
 use App\Report;

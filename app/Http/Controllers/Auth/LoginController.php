@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use Response;
-
 class LoginController extends Controller
 {
     /*
