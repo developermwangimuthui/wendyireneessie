@@ -93,6 +93,7 @@ $(document).ready(function() {
  }); 
 
 
+       
         var table = $('#memes_table').DataTable({
         processing: true,
         serverSide: true,    
@@ -109,14 +110,15 @@ $(document).ready(function() {
 
                       return "<img src={{ URL::to('') }}/Postvideos/"+data+ " width='70' class='img-thumbnail view ' id='"+row['id']+"'/>" ; 
                           }},orderable: false}, 
-         {data: 'user.firstname', name: 'user.firstname',render: function ( data, type, row ) {
+         {data: 'user',render: function ( data, type, row ) {
              var name = '';
-             if (row['user.firstname'] != null) {
-                 name = row['user.firstname']+''+ row['user.lastname'];                 
-             }else if (row['user.username'] !=null) {
-                 name = row['user.username']                 
-             } else {                 
-                name = row['user.id']  
+             if (data.firstname !=null) {
+                 name = data.firstname +'    '+data.lastname                 
+             } else if (data.username !=null) {
+                 
+                name = data.username  
+             }else{
+                 name = data.id
              }
             return name;
          }},
