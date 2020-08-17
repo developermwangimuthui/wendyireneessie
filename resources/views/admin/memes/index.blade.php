@@ -266,8 +266,4 @@ $(document).on('click', '.view', function(){
 </script>
 
 
-<<<<<<< HEAD
 @endsection
-=======
-@endsection
->>>>>>> 2eb21681a2764e436b540e7b8965cad8e798df31
