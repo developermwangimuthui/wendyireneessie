@@ -79,3 +79,8 @@ Route::get('/key/generate', function () {
     return 'Success';
     // return what you want
 });
+Route::get('/cache/clear', function () {
+    $exitCode = Artisan::call('cache:clear');
+    return 'Success';
+    // return what you want
+});
