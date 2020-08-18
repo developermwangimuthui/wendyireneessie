@@ -164,7 +164,7 @@ class PostController extends Controller
         $tags = [];
         $likes = $user->likes()->with('likeable')->get();
         foreach ($likes as $like) {
-            $tags[] =    $like->tags; // App\Post instance
+            $tags[] =    $like->likeable->tags; // App\Post instance
         }
         return $tags;
     }
