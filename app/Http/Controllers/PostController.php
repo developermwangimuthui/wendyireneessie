@@ -24,7 +24,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // for algorithim improvement 
+    // for algorithim improvement
     public function index2()
     {
         $user = Auth::user();
@@ -33,7 +33,7 @@ class PostController extends Controller
             $trendingPost = $this->trending(30, 70);
             $latest = $this->latestPosts(30);
             $merged = $latest->merge($trendingPost);
-            
+
 
             // dd('new');
         } else {
@@ -43,52 +43,7 @@ class PostController extends Controller
             $latest2 = $this->latestPosts(30);
 
             $merged = $latest2->merge($hashTags)->merge($followingsPost);
-            
 
-        }
-
-        $result = $merged->unique();
-        $total=$result->count();
-        $remaining_posts = 100- $total;
-        $post_limit=10;
-      while ($remaining_posts>0) {
-          $getExtraPosts=$this->latestPosts($post_limit);
-           $result = $result->merge($getExtraPosts);
-            $result=$result->unique();          
-            $result= $result->shuffle();
-        $total=$result->count();
-
-        $remaining_posts = 100- $total;
-        $post_limit +=10;
-      }
-         
-
-        $posts_results = PostResource::collection($result);
-
-        return response([
-            'error' => False,
-            'message' => 'Success',
-            'post' => $posts_results
-        ], Response::HTTP_OK);
-    }
-    public function index()
-    {$user = Auth::user();
-        $merged = [];
-        if ($this->isNew($user)) {
-            $trendingPost = $this->trending(30, 70);
-            $latest = $this->latestPosts(30);
-            $merged = $latest->merge($trendingPost);
-            
-
-            // dd('new');
-        } else {
-            // dd('me');
-            $hashTags = $this->postUserTags($user, 40);
-            $followingsPost = $this->getUserFollowingsPosts($user, 30);
-            $latest2 = $this->latestPosts(30);
-
-            $merged = $latest2->merge($hashTags)->merge($followingsPost);
-            
 
         }
 
@@ -106,7 +61,52 @@ class PostController extends Controller
         $remaining_posts = 100- $total;
         $post_limit +=10;
       }
-         
+
+
+        $posts_results = PostResource::collection($result);
+
+        return response([
+            'error' => False,
+            'message' => 'Success',
+            'post' => $posts_results
+        ], Response::HTTP_OK);
+    }
+    public function index()
+    {$user = Auth::user();
+        $merged = [];
+        if ($this->isNew($user)) {
+            $trendingPost = $this->trending(30, 70);
+            $latest = $this->latestPosts(30);
+            $merged = $latest->merge($trendingPost);
+
+
+            // dd('new');
+        } else {
+            // dd('me');
+            $hashTags = $this->postUserTags($user, 40);
+            $followingsPost = $this->getUserFollowingsPosts($user, 30);
+            $latest2 = $this->latestPosts(30);
+
+            $merged = $latest2->merge($hashTags)->merge($followingsPost);
+
+
+        }
+
+        $result = $merged->unique();
+        $total=$result->count();
+        $remaining_posts = 100- $total;
+        $post_limit=10;
+      while ($remaining_posts>0) {
+          $getExtraPosts=$this->latestPosts($post_limit);
+           $result = $result->merge($getExtraPosts);
+            $result=$result->unique();
+            $result= $result->shuffle();
+        $total=$result->count();
+
+        $remaining_posts = 100- $total;
+        $post_limit +=10;
+      }
+
 
         $posts_results = PostResource::collection($result);
 
@@ -164,7 +164,7 @@ class PostController extends Controller
         $tags = [];
         $likes = $user->likes()->with('likeable')->get();
         foreach ($likes as $like) {
-            $tags[] =    $like->likeable->tags; // App\Post instance
+            $tags[] =    $like->tags; // App\Post instance
         }
         return $tags;
     }
@@ -267,9 +267,9 @@ class PostController extends Controller
                 $seperatedtags = array_unique(explode(',', $post->tags), SORT_REGULAR);
             }else{
                 $seperatedtags = [];
-                
+
             }
-            
+
             foreach ($seperatedtags as $tag) {
                     $tags[] = $tag;
             }
@@ -366,11 +366,11 @@ class PostController extends Controller
     public function reportUser(Request $request,$user_id)
     {
         $user_exists = User::where('id', $user_id)->exists();
-        
+
         if ($user_exists) {
             $user = User::where('id', $user_id)->first();
             $user->is_reported = 1;
-            $user->update(); 
+            $user->update();
             $report = new Report();
             $report->reporter_id = Auth::user()->id;
             $report->reported_id= $user_id;
@@ -385,26 +385,26 @@ class PostController extends Controller
                 'error' => true,
                 'message' => 'The user is not found.',
             ], Response::HTTP_OK);
-        }    
-          
+        }
+
         }
     }
 
     public function reportPost(Request $request,$post_id)
     {
-        
+
         $postexists = Post::where('id',$post_id)->exists();
-        
+
         if ($postexists) {
             $post = Post::where('id',$post_id)->first();
             $post->is_reported = 1;
-            $post->update(); 
+            $post->update();
            $reporedPost = new ReportPost();
            $reporedPost->reporter_id=Auth::user()->id;
            $reporedPost->post_id=$post_id;
            $reporedPost->message = $request->message;
         if ($reporedPost->save()) {
-        
+
             return response([
                 'error' => False,
                 'message' => 'Post reported'
@@ -416,15 +416,15 @@ class PostController extends Controller
                 'error' => true,
                 'message' => 'The post is not found.',
             ], Response::HTTP_OK);
-        }    
-           
+        }
+
     }
     }
 
     public function postFromRequestPostId($post_id)
-    {   
+    {
         $status = Post::where('id',$post_id)->exists();
-        
+
         if ($status) {
             $user_id = Post::where('id',$post_id)->pluck('user_id')->first();
             $posts = PostResource::collection(Post::where('user_id',$user_id)->get());
@@ -438,8 +438,8 @@ class PostController extends Controller
                 'error' => true,
                 'message' => 'The post is not found.',
             ], Response::HTTP_OK);
-        }       
-       
+        }
+
 
     }
     /**
@@ -457,7 +457,7 @@ class PostController extends Controller
         $post->type = $request->type;
         $post->text = $request->text;
         $post->tags = $request->tags;
-        // $post->image_url=       
+        // $post->image_url=
         // $post->location=
         // $post->views=
         // $post->dummy=
@@ -473,7 +473,7 @@ class PostController extends Controller
         //     'original_name' => $request->post->getClientOriginalName(),
         //     'path'          => $path,
         //     'title'         => $request->title,
-        // ]); 
+        // ]);
         $filePath = $request->file('post');
         if ($request->type == 'image') {
             $imagefolder = '/Postimages';
