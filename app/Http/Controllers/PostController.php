@@ -278,7 +278,7 @@ class PostController extends Controller
         $data = [];
         foreach ($ourHashtags as $hasgtag) {
             $post_count = Post::where('tags', 'like', '%' . $hasgtag . '%')->count();
-            if ($post_count > 1) {
+            if ($post_count > 0) {
                 $data[] = [
                     'tag' => $hasgtag,
                     'post_count' => $post_count
@@ -339,6 +339,7 @@ class PostController extends Controller
             ->get();
         $users = User::where('firstname', 'like', '%' . $query_text . '%')
             ->orWhere('lastname', 'like', '%' . $query_text . '%')
+            ->orWhere('about', 'like', '%' . $query_text . '%')
             ->orWhere('username', 'like', '%' . $query_text . '%')
             ->get();
         if (sizeof($posts) > 0 && sizeof($users) == 0) {
@@ -362,7 +363,7 @@ class PostController extends Controller
                 'post' => PostResource::collection($posts),
                 'user' => UserResource::collection($users),
             ], Response::HTTP_OK);
-        } {
+        }else {
             return response([
                 'error' => true,
                 'message' => 'No data found',
