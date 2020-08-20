@@ -348,13 +348,13 @@ class PostController extends Controller
                 'error' => False,
                 'message' => 'Success',
                 'post' => $finalposts,
-                // 'user' => []
+                'user' => []
             ], Response::HTTP_OK);
         } elseif (sizeof($posts) == 0 && sizeof($users) > 0) {
             return response([
                 'error' => False,
                 'message' => 'Success',
-                // 'post' => [],
+                'post' => [],
                 'user' => $finalusers
             ], Response::HTTP_OK);
         } elseif (sizeof($posts) > 0 && sizeof($users) > 0) {
