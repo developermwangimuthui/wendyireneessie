@@ -341,13 +341,11 @@ class PostController extends Controller
             ->orWhere('lastname', 'like', '%' . $query_text . '%')
             ->orWhere('username', 'like', '%' . $query_text . '%')
             ->get();
-        $finalposts = PostResource::collection($posts);
-        $finalusers = UserResource::collection($users);
         if (sizeof($posts) > 0 && sizeof($users) == 0) {
             return response([
                 'error' => False,
                 'message' => 'Success',
-                'post' => $finalposts,
+                'post' =>  PostResource::collection($posts),
                 'user' => []
             ], Response::HTTP_OK);
         } elseif (sizeof($posts) == 0 && sizeof($users) > 0) {
@@ -355,14 +353,14 @@ class PostController extends Controller
                 'error' => False,
                 'message' => 'Success',
                 'post' => [],
-                'user' => $finalusers
+                'user' =>UserResource::collection($users)
             ], Response::HTTP_OK);
         } elseif (sizeof($posts) > 0 && sizeof($users) > 0) {
             return response([
                 'error' => False,
                 'message' => 'Success',
-                'post' => $finalposts,
-                'user' => $finalusers
+                'post' => PostResource::collection($posts),
+                'user' => UserResource::collection($users),
             ], Response::HTTP_OK);
         } {
             return response([
