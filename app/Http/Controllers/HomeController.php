@@ -86,6 +86,7 @@ class HomeController extends Controller
     public function redirectPlayStore(Request $request)
     {
         $referer = $request->headers->get('referer');
+        $referer  = Request::server('HTTP_REFERER');
         // $referer = URL::previous();
         // $referer = $request->server('HTTP_REFERER');
         // dd($referer);

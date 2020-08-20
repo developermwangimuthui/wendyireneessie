@@ -36,10 +36,10 @@ Route::get('/privacy-policy', function () {
 
 Auth::routes();
 
-Route::get('/meme/{id}', function () {
-   return Redirect::to('https://play.google.com/store/apps/details?id=com.trichain.kenyasihami');
-});
-
+// Route::get('/meme/{id}', function () {
+//    return Redirect::to('https://play.google.com/store/apps/details?id=com.trichain.kenyasihami');
+// });
+Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
 
 Route::get('/home', 'HomeController@dashboard')->name('home');
