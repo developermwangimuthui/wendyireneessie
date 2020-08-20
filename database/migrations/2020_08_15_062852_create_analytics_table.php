@@ -16,7 +16,7 @@ class CreateAnalyticsTable extends Migration
         Schema::create('analytics', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->longText('referring_url')->nullable();
-            $table->integer('clicks')->default(0);
+            $table->integer('ip_adress')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
