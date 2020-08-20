@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\FollowsResource;
 use App\Http\Resources\TrendingUsersResource;
+use App\Search;
 
 class PostController extends Controller
 {
@@ -43,24 +44,22 @@ class PostController extends Controller
             $latest2 = $this->latestPosts(30);
 
             $merged = $latest2->merge($hashTags)->merge($followingsPost);
-
-
         }
 
         $result = $merged->unique();
-        $total=$result->count();
-        $remaining_posts = 100- $total;
-        $post_limit=10;
-      while ($remaining_posts>0) {
-          $getExtraPosts=$this->latestPosts($post_limit);
-           $result = $result->merge($getExtraPosts);
-            $result=$result->unique();
-            $result= $result->shuffle();
-        $total=$result->count();
+        $total = $result->count();
+        $remaining_posts = 100 - $total;
+        $post_limit = 10;
+        while ($remaining_posts > 0) {
+            $getExtraPosts = $this->latestPosts($post_limit);
+            $result = $result->merge($getExtraPosts);
+            $result = $result->unique();
+            $result = $result->shuffle();
+            $total = $result->count();
 
-        $remaining_posts = 100- $total;
-        $post_limit +=10;
-      }
+            $remaining_posts = 100 - $total;
+            $post_limit += 10;
+        }
 
 
         $posts_results = PostResource::collection($result);
@@ -72,7 +71,8 @@ class PostController extends Controller
         ], Response::HTTP_OK);
     }
     public function index()
-    {$user = Auth::user();
+    {
+        $user = Auth::user();
         $merged = [];
         if ($this->isNew($user)) {
             $trendingPost = $this->trending(30, 70);
@@ -88,24 +88,22 @@ class PostController extends Controller
             $latest2 = $this->latestPosts(30);
 
             $merged = $latest2->merge($hashTags)->merge($followingsPost);
-
-
         }
 
         $result = $merged->unique();
-        $total=$result->count();
-        $remaining_posts = 100- $total;
-        $post_limit=10;
-      while ($remaining_posts>0) {
-          $getExtraPosts=$this->latestPosts($post_limit);
-           $result = $result->merge($getExtraPosts);
-            $result=$result->unique();
-            $result= $result->shuffle();
-        $total=$result->count();
+        $total = $result->count();
+        $remaining_posts = 100 - $total;
+        $post_limit = 10;
+        while ($remaining_posts > 0) {
+            $getExtraPosts = $this->latestPosts($post_limit);
+            $result = $result->merge($getExtraPosts);
+            $result = $result->unique();
+            $result = $result->shuffle();
+            $total = $result->count();
 
-        $remaining_posts = 100- $total;
-        $post_limit +=10;
-      }
+            $remaining_posts = 100 - $total;
+            $post_limit += 10;
+        }
 
 
         $posts_results = PostResource::collection($result);
@@ -265,17 +263,16 @@ class PostController extends Controller
         foreach ($posts as $post) {
             if ($post->tags != null) {
                 $seperatedtags = array_unique(explode(',', $post->tags), SORT_REGULAR);
-            }else{
+            } else {
                 $seperatedtags = [];
-
             }
 
             foreach ($seperatedtags as $tag) {
-                    $tags[] = $tag;
+                $tags[] = $tag;
             }
         }
 
-        $ourHashtags = array_values(array_unique($tags,SORT_REGULAR));
+        $ourHashtags = array_values(array_unique($tags, SORT_REGULAR));
         // $ourHashtags = array_values($tags);
         // arsort($ourHashtags);
         $data = [];
@@ -291,7 +288,7 @@ class PostController extends Controller
         if (sizeof($data) > 0) {
             uasort($data, function ($a, $b) {
                 // return strcmp($a['post_count'], $b['post_count']);
-                 return $b['post_count'] <=> $a['post_count'];
+                return $b['post_count'] <=> $a['post_count'];
             });
             return response([
                 'error' => False,
@@ -326,13 +323,24 @@ class PostController extends Controller
 
     public function normalSearch($query_text)
     {
+        if ($query_text != null) {
+            $count = Search::where('query_text', $query_text)->count();
+            if ($count > 0) {
+                Search::where('query_text', $query_text)->increment('occurrence');
+            } else {
+                $search = new Search();
+                $search->query_text = strtolower($query_text);
+                $search->user_id = Auth::user()->id;
+                $search->save();
+            }
+        }
         $posts = Post::where('tags', 'like', '%' . $query_text . '%')
             ->orWhere('text', 'like', '%' . $query_text . '%')
             ->get();
-        $users=User::where('firstname', 'like', '%' . $query_text . '%')
-        ->orWhere('lastname', 'like', '%' . $query_text . '%')
-        ->orWhere('username', 'like', '%' . $query_text . '%')
-        ->get();
+        $users = User::where('firstname', 'like', '%' . $query_text . '%')
+            ->orWhere('lastname', 'like', '%' . $query_text . '%')
+            ->orWhere('username', 'like', '%' . $query_text . '%')
+            ->get();
         $posts = PostResource::collection($posts);
         $users = UserResource::collection($users);
         if (sizeof($posts) > 0 && sizeof($users) == 0) {
@@ -346,24 +354,31 @@ class PostController extends Controller
             return response([
                 'error' => False,
                 'message' => 'Success',
-                'post' =>[],
+                'post' => [],
                 'user' => $users
             ], Response::HTTP_OK);
-        }elseif (sizeof($posts) > 0 && sizeof($users) > 0) {
+        } elseif (sizeof($posts) > 0 && sizeof($users) > 0) {
             return response([
                 'error' => False,
                 'message' => 'Success',
-                'post' =>$posts,
+                'post' => $posts,
                 'user' => $users
-            ], Response::HTTP_OK);        }{
+            ], Response::HTTP_OK);
+        } {
             return response([
                 'error' => true,
                 'message' => 'No data found',
             ], Response::HTTP_OK);
         }
     }
+    public function searchSuggestion($suggestedWord)
+    {
 
-    public function reportUser(Request $request,$user_id)
+        $suggestionResults = Search::where('query_text', 'like', '%' . $suggestedWord . '%')
+            ->get();
+        return $suggestionResults;
+    }
+    public function reportUser(Request $request, $user_id)
     {
         $user_exists = User::where('id', $user_id)->exists();
 
@@ -373,61 +388,57 @@ class PostController extends Controller
             $user->update();
             $report = new Report();
             $report->reporter_id = Auth::user()->id;
-            $report->reported_id= $user_id;
-            $report->message=$request->message;
+            $report->reported_id = $user_id;
+            $report->message = $request->message;
             if ($report->save()) {
                 return response([
                     'error' => False,
                     'message' => 'User reported'
                 ], Response::HTTP_OK);
-            }  else {
-            return response([
-                'error' => true,
-                'message' => 'The user is not found.',
-            ], Response::HTTP_OK);
-        }
-
+            } else {
+                return response([
+                    'error' => true,
+                    'message' => 'The user is not found.',
+                ], Response::HTTP_OK);
+            }
         }
     }
 
-    public function reportPost(Request $request,$post_id)
+    public function reportPost(Request $request, $post_id)
     {
 
-        $postexists = Post::where('id',$post_id)->exists();
+        $postexists = Post::where('id', $post_id)->exists();
 
         if ($postexists) {
-            $post = Post::where('id',$post_id)->first();
+            $post = Post::where('id', $post_id)->first();
             $post->is_reported = 1;
             $post->update();
-           $reporedPost = new ReportPost();
-           $reporedPost->reporter_id=Auth::user()->id;
-           $reporedPost->post_id=$post_id;
-           $reporedPost->message = $request->message;
-        if ($reporedPost->save()) {
+            $reporedPost = new ReportPost();
+            $reporedPost->reporter_id = Auth::user()->id;
+            $reporedPost->post_id = $post_id;
+            $reporedPost->message = $request->message;
+            if ($reporedPost->save()) {
 
-            return response([
-                'error' => False,
-                'message' => 'Post reported'
-            ], Response::HTTP_OK);
-
-
-        } else {
-            return response([
-                'error' => true,
-                'message' => 'The post is not found.',
-            ], Response::HTTP_OK);
+                return response([
+                    'error' => False,
+                    'message' => 'Post reported'
+                ], Response::HTTP_OK);
+            } else {
+                return response([
+                    'error' => true,
+                    'message' => 'The post is not found.',
+                ], Response::HTTP_OK);
+            }
         }
-
-    }
     }
 
     public function postFromRequestPostId($post_id)
     {
-        $status = Post::where('id',$post_id)->exists();
+        $status = Post::where('id', $post_id)->exists();
 
         if ($status) {
-            $user_id = Post::where('id',$post_id)->pluck('user_id')->first();
-            $posts = PostResource::collection(Post::where('user_id',$user_id)->get());
+            $user_id = Post::where('id', $post_id)->pluck('user_id')->first();
+            $posts = PostResource::collection(Post::where('user_id', $user_id)->get());
             return response([
                 'error' => false,
                 'message' => 'success',
@@ -439,8 +450,6 @@ class PostController extends Controller
                 'message' => 'The post is not found.',
             ], Response::HTTP_OK);
         }
-
-
     }
     /**
      * Store a newly created resource in storage.
