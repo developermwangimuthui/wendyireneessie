@@ -11,7 +11,7 @@
 		 	</div>
 		  <div class="card-title text-uppercase text-center py-3">Sign In</div>
           <form method="POST" action="{{ route('login') }}">
-			{{ csrf_field() }}
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="form-group">
 			   <div class="position-relative has-icon-right">
 				  <label for="exampleInputUsername" class="sr-only">Email</label>
