@@ -42,39 +42,5 @@ class LoginController extends Controller
     }
 
 
-    public function login(Request $request)
-    {
-        dd('this');
-
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-
-
-        $rules = [
-            'email'    => 'required|email',
-            'password' => [
-                'required',
-                'string',
-                'min:8',
-            ],
-        ];
-        $error = Validator::make($credentials, $rules);
-
-
-        if ($error->fails()) {
-            return Response::json(['errors' => $error->errors()->all()]);
-        }
-
-
-
-
-        if (Auth::attempt($credentials, $request->remember)) {
-
-            return redirect()->route('home');
-        } else {
-            return Response::json(['warning' => 'Invalid Email or Password']);
-        }
-    }
+   
 }
