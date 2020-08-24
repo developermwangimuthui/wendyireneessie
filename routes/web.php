@@ -41,6 +41,7 @@ Auth::routes();
 // });
 Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
+Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/home', 'HomeController@dashboard')->name('home');
 Route::get('/memes/index', 'HomeController@index')->name('memes.index');
@@ -88,4 +89,5 @@ Route::get('/config/clear', function () {
     $exitCode = Artisan::call('config:clear');
     return 'Success';
     // return what you want
+});
 });
