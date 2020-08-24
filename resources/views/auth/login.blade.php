@@ -11,8 +11,8 @@
 		 	</div>
 		  <div class="card-title text-uppercase text-center py-3">Sign In</div>
           <form method="POST" action="{{ route('login') }}">
-              @csrf
-			  <div class="form-group">
+			{{ csrf_field() }}
+			<div class="form-group">
 			   <div class="position-relative has-icon-right">
 				  <label for="exampleInputUsername" class="sr-only">Email</label>
                  
