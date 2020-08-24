@@ -65,6 +65,8 @@ Route::get('/passport/install', function () {
     return 'Success';
     // return what you want
 });
+
+});
 Route::get('/migrate', function () {
     $exitCode = Artisan::call('migrate');
     return 'Success';
@@ -89,5 +91,4 @@ Route::get('/config/clear', function () {
     $exitCode = Artisan::call('config:clear');
     return 'Success';
     // return what you want
-});
 });
