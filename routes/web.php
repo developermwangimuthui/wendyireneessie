@@ -41,7 +41,7 @@ Auth::routes();
 // });
 Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/home', 'HomeController@dashboard')->name('home');
 Route::get('/memes/index', 'HomeController@index')->name('memes.index');
@@ -66,7 +66,7 @@ Route::get('/passport/install', function () {
     // return what you want
 });
 
-});
+// });
 Route::get('/migrate', function () {
     $exitCode = Artisan::call('migrate');
     return 'Success';
@@ -89,6 +89,11 @@ Route::get('/cache/clear', function () {
 });
 Route::get('/config/clear', function () {
     $exitCode = Artisan::call('config:clear');
+    return 'Success';
+    // return what you want
+});
+Route::get('/route/clear', function () {
+    $exitCode = Artisan::call('route:clear');
     return 'Success';
     // return what you want
 });
