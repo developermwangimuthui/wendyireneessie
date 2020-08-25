@@ -24,7 +24,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/changePassword', 'UserAuthController@changePassword');
 
 
-    // Route::group(['middleware' => ['auth:api']], function () {
+    Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/updateprofle', 'UserAuthController@updateProfile');
 
 
@@ -54,4 +54,4 @@ Route::prefix('v1')->group(function () {
         Route::post('/report-user/{user_id}', 'PostController@reportUser');
         Route::post('/report-post/{post_id}', 'PostController@reportPost');
     });
-// });
+});
