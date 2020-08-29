@@ -206,17 +206,15 @@ class UserAuthController extends Controller
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
 
                     //$curl_response = curl_exec($curl);
-                    //echo 'exercuting curl';
-                    // $result = ;
+                    echo '{"result":';
+                    curl_exec($curl);
                     // if ($result == 'Message Sent: 1701') {
                         # code...
-                   return response([
+                   echo "[
                         'error' => false,
                         'message' => 'Password reset message sent',
-                        'result' => curl_exec($curl),
-                    ], Response::HTTP_OK);
-                 }
-                //  else{
+                    ]}";
+                //  }else{
 
                 // return response([
                 //     'error' => true,
