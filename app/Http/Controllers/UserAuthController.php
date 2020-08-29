@@ -155,112 +155,118 @@ class UserAuthController extends Controller
         ];
         // $error = Validator::make($request->all(), $rules);
         $password = str_random(4);
-        // dd($password);
-            $phoneexist = User::where('phone', $request->phone)->count();
-            // if ($phoneexist <= 0) {
-            //     return response([
-            //         'error' => true,
-            //         'message' => 'User not found',
-            //     ], Response::HTTP_OK);
-            // } else {
-                $digits = 4;
-                $token = random_int(10 ** ($digits - 1), (10 ** $digits) - 1);
 
-                $status = PasswordReseting::where('phone', $request->phone)->count();
-                if ($status > 0) {
-                    $pass =  PasswordReseting::where('phone', $request->phone)->first();
-                    $pass->phone = $request->phone;
-                    $pass->token = $token;
-                    $data = [
-                        'token'      =>  $token,
-                    ];
-                    if ($pass->update()) {
 
-                        $password_update = User::where('phone', $request->phone)->update([
-                            'password' => Hash::make($password),
-                        ]);
-                        // dd($password_update);
-                        if ($password_update) {
-                            $curl = curl_init();
+        $phoneexist = User::where('phone', $request->phone)->count();
+        // if ($phoneexist <= 0) {
+        //     return response([
+        //         'error' => true,
+        //         'message' => 'User not found',
+        //     ], Response::HTTP_OK);
+        // } else {
+        $digits = 4;
+        $token = random_int(10 ** ($digits - 1), (10 ** $digits) - 1);
 
-                            //$tophone=$pno1;
-                            //$message="A client is requesting your product (order no. $ordername). Please login to MyGas app to accept the order";
+        $status = PasswordReseting::where('phone', $request->phone)->count();
+        if ($status > 0) {
+            $pass =  PasswordReseting::where('phone', $request->phone)->first();
+            $pass->phone = $request->phone;
+            $pass->token = $token;
+            $data = [
+                'token'      =>  $token,
+            ];
+            if ($pass->update()) {
 
-                            //$CallBackURL = 'https://tumefika.co.ke/admin/callback_url.php';
-                            $curl_post_data = array('username' => 'yoosinpaddy', 'api_key' => 'h8f3OgwEVI1t7365C7p55nTJttuEkFDyQNydRMlSG9CBQ8ZF1Q', 'sender' => 'SMARTLINK', 'to' => $request->phone, 'message' => 'Your Password reset is ' . $password, 'msgtype' => '5', 'dlr' => 'success');
-                            $data_string = json_encode($curl_post_data);
+                $password_update = User::where('phone', $request->phone)->update([
+                    'password' => Hash::make($password),
+                ]);
+                $phone_number1 = $request->phone;
+                // dd($password_update);
+                if ($password_update) {
 
-                            curl_setopt($curl, CURLOPT_URL, 'https://sms.movesms.co.ke/api/compose');
 
-                            curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-type: application/json", "ApiKey:109dfaa303aa452092a65361e9b4e8d6"]);
+                    $phone_number1 = preg_replace('/^0/', '254', $phone_number1);
+                    $phone_number1 = preg_replace('/^7/', '2547', $phone_number1);
+                    $phone_number1 = preg_replace('/^1/', '2541', $phone_number1);
+                    $curl = curl_init();
 
-                            // curl_setopt($curl, CURLOPT_HEADER, false);
-                            curl_setopt($curl, CURLOPT_POST, true);
-                            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+                    //$tophone=$pno1;
+                    //$message="A client is requesting your product (order no. $ordername). Please login to MyGas app to accept the order";
 
-                            //$curl_response = curl_exec($curl);
-                            //echo 'exercuting curl';
-                            curl_exec($curl);
-                       return response([
-                            'error' => false,
-                            'message' => 'Password reset message sent',
-                        ], Response::HTTP_OK);
-                     }
+                    //$CallBackURL = 'https://tumefika.co.ke/admin/callback_url.php';
+                    $curl_post_data = array('username' => 'yoosinpaddy', 'api_key' => 'h8f3OgwEVI1t7365C7p55nTJttuEkFDyQNydRMlSG9CBQ8ZF1Q', 'sender' => 'SMARTLINK', 'to' => $phone_number1, 'message' => 'Your Password reset is ' . $password, 'msgtype' => '5', 'dlr' => 'success');
+                    $data_string = json_encode($curl_post_data);
 
-                        
-                    } else {
-                        return response([
-                            'error' => true,
-                            'message' => 'Failed to send message!',
-                        ], Response::HTTP_OK);
-                    }
-                } else {
+                    curl_setopt($curl, CURLOPT_URL, 'https://sms.movesms.co.ke/api/compose');
 
-                    $pass = new PasswordReseting();
-                    $pass->phone = $request->phone;
-                    $pass->token = $token;
-                    $data = [
-                        'token'      =>  $token,
-                    ];
-                    if ($pass->save()) {    $password_update = User::where('phone', $request->phone)->update([
-                        'password' => Hash::make($password),
-                    ]);
-                    if ($password_update) {
-                        $curl = curl_init();
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-type: application/json", "ApiKey:109dfaa303aa452092a65361e9b4e8d6"]);
 
-                        //$tophone=$pno1;
-                        //$message="A client is requesting your product (order no. $ordername). Please login to MyGas app to accept the order";
+                    // curl_setopt($curl, CURLOPT_HEADER, false);
+                    curl_setopt($curl, CURLOPT_POST, true);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
 
-                        //$CallBackURL = 'https://tumefika.co.ke/admin/callback_url.php';
-                        $curl_post_data = array('username' => 'yoosinpaddy', 'api_key' => 'h8f3OgwEVI1t7365C7p55nTJttuEkFDyQNydRMlSG9CBQ8ZF1Q', 'sender' => 'SMARTLINK', 'to' => $request->phone, 'message' => 'Your Password reset is ' . $password, 'msgtype' => '5', 'dlr' => 'success');
-                        $data_string = json_encode($curl_post_data);
-
-                        curl_setopt($curl, CURLOPT_URL, 'https://sms.movesms.co.ke/api/compose');
-
-                        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-type: application/json", "ApiKey:109dfaa303aa452092a65361e9b4e8d6"]);
-
-                        // curl_setopt($curl, CURLOPT_HEADER, false);
-                        curl_setopt($curl, CURLOPT_POST, true);
-                        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-
-                        //$curl_response = curl_exec($curl);
-                        //echo 'exercuting curl';
-                        curl_exec($curl);
-                    }
-                        return response([
-                            'error' => false,
-                            'message' => 'Password reset message bsent',
-
-                        ], Response::HTTP_OK);
-                    } else {
-                        return response([
-                            'error' => true,
-                            'message' => 'Failed to send message!',
-                        ], Response::HTTP_OK);
-                    }
+                    //$curl_response = curl_exec($curl);
+                    //echo 'exercuting curl';
+                    curl_exec($curl);
+                    return response([
+                        'error' => false,
+                        'message' => 'Password reset message sent',
+                    ], Response::HTTP_OK);
                 }
-            // }
-        
+            } else {
+                return response([
+                    'error' => true,
+                    'message' => 'Failed to send message!',
+                ], Response::HTTP_OK);
+            }
+        } else {
+
+            $pass = new PasswordReseting();
+            $pass->phone = $request->phone;
+            $pass->token = $token;
+            $data = [
+                'token'      =>  $token,
+            ];
+            if ($pass->save()) {
+                $password_update = User::where('phone', $request->phone)->update([
+                    'password' => Hash::make($password),
+                ]);
+                if ($password_update) {
+                    $curl = curl_init();
+
+                    //$tophone=$pno1;
+                    //$message="A client is requesting your product (order no. $ordername). Please login to MyGas app to accept the order";
+
+                    //$CallBackURL = 'https://tumefika.co.ke/admin/callback_url.php';
+                    $curl_post_data = array('username' => 'yoosinpaddy', 'api_key' => 'h8f3OgwEVI1t7365C7p55nTJttuEkFDyQNydRMlSG9CBQ8ZF1Q', 'sender' => 'SMARTLINK', 'to' => $request->phone, 'message' => 'Your Password reset is ' . $password, 'msgtype' => '5', 'dlr' => 'success');
+                    $data_string = json_encode($curl_post_data);
+
+                    curl_setopt($curl, CURLOPT_URL, 'https://sms.movesms.co.ke/api/compose');
+
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-type: application/json", "ApiKey:109dfaa303aa452092a65361e9b4e8d6"]);
+
+                    // curl_setopt($curl, CURLOPT_HEADER, false);
+                    curl_setopt($curl, CURLOPT_POST, true);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+
+                    //$curl_response = curl_exec($curl);
+                    //echo 'exercuting curl';
+                    curl_exec($curl);
+                }
+                return response([
+                    'error' => false,
+                    'message' => 'Password reset message bsent',
+
+                ], Response::HTTP_OK);
+            } else {
+                return response([
+                    'error' => true,
+                    'message' => 'Failed to send message!',
+                ], Response::HTTP_OK);
+            }
+        }
+        // }
+
     }
     public function token_connfrm(Request $request)
     {
