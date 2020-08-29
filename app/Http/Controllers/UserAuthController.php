@@ -37,16 +37,13 @@ class UserAuthController extends Controller
             $user->password =  Hash::make($request->password);
             $user->phone = $request->phone;
 
-         if ($user->save()) {
-             return response([
-                'error' => false,
-                'message' => 'You have registered successfully',
-                'user' => new UserRegisterResource($user)
-            ], Response::HTTP_CREATED);
-         }  
-          
-
-            
+            if ($user->save()) {
+                return response([
+                    'error' => false,
+                    'message' => 'You have registered successfully',
+                    'user' => new UserRegisterResource($user)
+                ], Response::HTTP_CREATED);
+            }
         }
     }
 
@@ -66,12 +63,12 @@ class UserAuthController extends Controller
 
     public function userLogin(UserLoginRequest $request)
     {
-       
+
         $user_status = User::where('phone', $request->phone)->count();
         if ($user_status > 0) {
-             
-                Auth::attempt(['phone' => $request->phone, 'password' => $request->password]);
-            
+
+            Auth::attempt(['phone' => $request->phone, 'password' => $request->password]);
+
             //was any of those correct ?
             if (Auth::check()) {
 
@@ -131,15 +128,15 @@ class UserAuthController extends Controller
                 } else {
                     $user->profile_pic_path = $this->moveUploadedFile($request->profile_pic_path, "UserProfilePics");
                 }
-            }else{
+            } else {
 
-            $user->update();
+                $user->update();
 
-            return response([
-                'error' => false,
-                'message' => 'Profile updated successfully',
-                'user' => new UserLoginResoure($user)
-            ], Response::HTTP_CREATED);
+                return response([
+                    'error' => false,
+                    'message' => 'Profile updated successfully',
+                    'user' => new UserLoginResoure($user)
+                ], Response::HTTP_CREATED);
             }
             $user->update();
 
@@ -154,66 +151,116 @@ class UserAuthController extends Controller
     public function forgot_password(Request $request)
     {
         $rules = [
-            'email'    =>  'required|email',
+            'phone'    =>  'required|phone',
         ];
-        $error = Validator::make($request->all(), $rules);
-
-        if ($error->fails()) {
-            return response(['errors' => $error->errors()->all()], Response::HTTP_OK);
-        } else {
-            $emailexist = User::where('email', $request->email)->count();
-            if ($emailexist <= 0) {
-                return response([
-                    'error' => true,
-                    'message' => 'User not found',
-                ], Response::HTTP_OK);
-            } else {
+        // $error = Validator::make($request->all(), $rules);
+        $password = str_random(4);
+        // dd($password);
+            $phoneexist = User::where('phone', $request->phone)->count();
+            // if ($phoneexist <= 0) {
+            //     return response([
+            //         'error' => true,
+            //         'message' => 'User not found',
+            //     ], Response::HTTP_OK);
+            // } else {
                 $digits = 4;
                 $token = random_int(10 ** ($digits - 1), (10 ** $digits) - 1);
 
-                $status = PasswordReseting::where('email', $request->email)->count();
+                $status = PasswordReseting::where('phone', $request->phone)->count();
                 if ($status > 0) {
-                    $pass =  PasswordReseting::where('email', $request->email)->first();
-                    $pass->email = $request->email;
+                    $pass =  PasswordReseting::where('phone', $request->phone)->first();
+                    $pass->phone = $request->phone;
                     $pass->token = $token;
                     $data = [
                         'token'      =>  $token,
                     ];
                     if ($pass->update()) {
-                        \Mail::to($request->email)->send(new SendMail($data));
-                        return response([
+
+                        $password_update = User::where('phone', $request->phone)->update([
+                            'password' => Hash::make($password),
+                        ]);
+                        // dd($password_update);
+                        if ($password_update) {
+                            $curl = curl_init();
+
+                            //$tophone=$pno1;
+                            //$message="A client is requesting your product (order no. $ordername). Please login to MyGas app to accept the order";
+
+                            //$CallBackURL = 'https://tumefika.co.ke/admin/callback_url.php';
+                            $curl_post_data = array('username' => 'yoosinpaddy', 'api_key' => 'h8f3OgwEVI1t7365C7p55nTJttuEkFDyQNydRMlSG9CBQ8ZF1Q', 'sender' => 'SMARTLINK', 'to' => $request->phone, 'message' => 'Your Password reset is ' . $password, 'msgtype' => '5', 'dlr' => 'success');
+                            $data_string = json_encode($curl_post_data);
+
+                            curl_setopt($curl, CURLOPT_URL, 'https://sms.movesms.co.ke/api/compose');
+
+                            curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-type: application/json", "ApiKey:109dfaa303aa452092a65361e9b4e8d6"]);
+
+                            // curl_setopt($curl, CURLOPT_HEADER, false);
+                            curl_setopt($curl, CURLOPT_POST, true);
+                            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+
+                            //$curl_response = curl_exec($curl);
+                            //echo 'exercuting curl';
+                            curl_exec($curl);
+                       return response([
                             'error' => false,
-                            'message' => 'Password reset token sent',
+                            'message' => 'Password reset message sent',
                         ], Response::HTTP_OK);
+                     }
+
+                        
                     } else {
                         return response([
                             'error' => true,
-                            'message' => 'Failed to send token!',
+                            'message' => 'Failed to send message!',
                         ], Response::HTTP_OK);
                     }
                 } else {
 
                     $pass = new PasswordReseting();
-                    $pass->email = $request->email;
+                    $pass->phone = $request->phone;
                     $pass->token = $token;
                     $data = [
                         'token'      =>  $token,
                     ];
-                    if ($pass->save()) {
-                        \Mail::to($request->email)->send(new SendMail($data));
+                    if ($pass->save()) {    $password_update = User::where('phone', $request->phone)->update([
+                        'password' => Hash::make($password),
+                    ]);
+                    if ($password_update) {
+                        $curl = curl_init();
+
+                        //$tophone=$pno1;
+                        //$message="A client is requesting your product (order no. $ordername). Please login to MyGas app to accept the order";
+
+                        //$CallBackURL = 'https://tumefika.co.ke/admin/callback_url.php';
+                        $curl_post_data = array('username' => 'yoosinpaddy', 'api_key' => 'h8f3OgwEVI1t7365C7p55nTJttuEkFDyQNydRMlSG9CBQ8ZF1Q', 'sender' => 'SMARTLINK', 'to' => $request->phone, 'message' => 'Your Password reset is ' . $password, 'msgtype' => '5', 'dlr' => 'success');
+                        $data_string = json_encode($curl_post_data);
+
+                        curl_setopt($curl, CURLOPT_URL, 'https://sms.movesms.co.ke/api/compose');
+
+                        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-type: application/json", "ApiKey:109dfaa303aa452092a65361e9b4e8d6"]);
+
+                        // curl_setopt($curl, CURLOPT_HEADER, false);
+                        curl_setopt($curl, CURLOPT_POST, true);
+                        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+
+                        //$curl_response = curl_exec($curl);
+                        //echo 'exercuting curl';
+                        curl_exec($curl);
+                    }
                         return response([
                             'error' => false,
-                            'message' => 'Password reset token sent',
+                            'message' => 'Password reset message bsent',
+
                         ], Response::HTTP_OK);
                     } else {
                         return response([
                             'error' => true,
-                            'message' => 'Failed to send token!',
+                            'message' => 'Failed to send message!',
                         ], Response::HTTP_OK);
                     }
                 }
-            }
-        }
+            // }
+        
     }
     public function token_connfrm(Request $request)
     {
