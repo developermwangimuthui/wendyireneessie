@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use App\Exceptions\ExceptionTrait;
-
+use Symfony\Component\HttpFoundation\Response;
 class Handler extends ExceptionHandler
 {
     use ExceptionTrait;
@@ -54,8 +54,14 @@ class Handler extends ExceptionHandler
     {
         // return parent::render($request, $exception);
         if ($request->expectsJson()){
-           return $this->apiException($request,$exception);
-        }
-        return parent::render($request, $exception);
-    }
+           return response([
+            'error' => true,
+            'message' => 'Something went Wrong',
+            'data' => $this->apiException($request,$exception),
+            
+        ], Response::HTTP_OK);
+    } 
+    } 
+
+        
 }

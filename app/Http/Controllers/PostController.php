@@ -17,7 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\FollowsResource;
 use App\Http\Resources\TrendingUsersResource;
 use App\Search;
-
+use App\Jobs\GansterCalc;
+use Carbon\Carbon;
 class PostController extends Controller
 {
     /**
@@ -108,6 +109,7 @@ class PostController extends Controller
 
         $posts_results = PostResource::collection($result);
 
+        GansterCalc::dispatch($user);
         return response([
             'error' => False,
             'message' => 'Success',
@@ -632,10 +634,12 @@ class PostController extends Controller
         $usersdetails = User::where('id', $user_id)->withCount('followers')->withCount('followings')->get();
         $userposts_resource = PostResource::collection($posts);
         $usersdetails_resource = FollowsResource::collection($usersdetails);
+        return $usersdetails_resource;
         return response([
             'error' => False,
             'profile' => $usersdetails_resource,
             'posts' => $userposts_resource,
+            
         ], Response::HTTP_OK);
     }
 }

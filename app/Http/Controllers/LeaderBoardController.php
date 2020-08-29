@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\New_;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\GangsterPointController;
 
 class LeaderBoardController extends Controller
 {
@@ -44,6 +45,7 @@ class LeaderBoardController extends Controller
     {
         //
     }
+  
 
     /**
      * Store a newly created resource in storage.
@@ -56,11 +58,16 @@ class LeaderBoardController extends Controller
         //enroll to leaderboard
         $userID = Auth::user()->id;
         $status = LeaderBoard::where('user_id', $userID)->count();
+        $gansterPoints = new GangsterPointController();
+
         if ($status > 0) {
+            $gansterPoints->calculateGangsterPoints(Auth::user());
+
             return response([
                 'error' => true,
                 'message' => 'You already enrolled in leaderboard.',
             ], Response::HTTP_OK);
+
         } else {
             # code...
 
@@ -70,18 +77,23 @@ class LeaderBoardController extends Controller
             $leaderBoard->longi = $request->longi;
 
             if ($leaderBoard->save()) {
+                $gansterPoints->calculateGangsterPoints(Auth::user());
+
                 return response([
-                    'error' => False,
-                    'message' => 'Success, You are now in leaderboard.',
-                    'user' => new LeaderBoardResource($leaderBoard)
-                ], Response::HTTP_OK);
-            } else {
-                return response([
+                        'error' => False,
+                        'message' => 'Success, You are now in leaderboard.',
+                        'user' => new LeaderBoardResource($leaderBoard)
+                    ], Response::HTTP_OK);   
+                }else {
+                     return response([
                     'error' => true,
                     'message' => 'failed, try again later!',
                 ], Response::HTTP_OK);
+                }
+                
+                
             }
-        }
+        
     }
 
     /**

@@ -6,7 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\User;
 use Auth;
-class FollowsResource extends JsonResource
+use App\Http\Controllers\GangsterPointController;
+class  FollowsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +17,13 @@ class FollowsResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $gangster_points = new GangsterPointController;
         $authUser = Auth::user();
         $user2 = User::find($this->id);
         $i_am_following=$authUser->isFollowing($user2);
-        
+        $gangster_points = $gangster_points->getGansterPoints($user2);
+
         return [
             'id'=>$this->id,
             'firstname'=>$this->firstname,
@@ -27,6 +31,7 @@ class FollowsResource extends JsonResource
             'username' => $this->username,
             'email'=>$this->email,
             'phone'=>$this->phone,
+            'gangster_points'=>$gangster_points,
             'gender'=>$this->gender,
             'birth_date'=>$this->DOB,
             'about'=>$this->about,

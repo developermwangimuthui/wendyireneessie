@@ -45,6 +45,13 @@ Route::prefix('v1')->group(function () {
         Route::post('/enroll/leaderBoard', 'LeaderBoardController@store');
 
 
+        Route::get('/gantsterPoints/redeem', 'GangsterPointController@redeem');
+        
+        // .....................>Finance.................//
+        Route::get('/finance/history', 'PaymentController@index');
+
+
+
         Route::get('/trending-users', 'PostController@trendingUsers');
         Route::get('/user-posts/{user_id}', 'PostController@userPosts');
         Route::get('/trending-tags', 'PostController@trendingHashtags');
