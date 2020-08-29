@@ -24,7 +24,7 @@ class LeaderBoardResource extends JsonResource
         }
         $points = new GangsterPointController();
         $gangsterpoints = $points->getGansterPoints($user);
-        $cumulativeGansterPoints = $points->getCumulativeGansterPoints($user);
+       (int) $cumulativeGansterPoints = $points->getCumulativeGansterPoints($user);
         return [
             'user_id'=>$user->id,
             'user_firstname'=>$user->firstname,
