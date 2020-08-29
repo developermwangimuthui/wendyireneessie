@@ -207,11 +207,22 @@ class UserAuthController extends Controller
 
                     //$curl_response = curl_exec($curl);
                     //echo 'exercuting curl';
-                    curl_exec($curl);
-                    return response([
+                    $result = curl_exec($curl);
+                    if ($result == 'Message Sent: 1701') {
+                        # code...
+                   return response([
                         'error' => false,
                         'message' => 'Password reset message sent',
+                        'result' => $result,
                     ], Response::HTTP_OK);
+                 }else{
+
+                return response([
+                    'error' => true,
+                    'message' => 'Failed to send message!',
+                ], Response::HTTP_OK);
+                 }
+                    
                 }
             } else {
                 return response([
