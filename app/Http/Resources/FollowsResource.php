@@ -22,7 +22,12 @@ class  FollowsResource extends JsonResource
         $authUser = Auth::user();
         $user2 = User::find($this->id);
         $i_am_following=$authUser->isFollowing($user2);
-        $gangster_points = $gangster_points->getGansterPoints($user2);
+        $redeemable_gangster_points = 0;
+        if($authUser->id==$user2->id){
+            $redeemable_gangster_points = $gangster_points->getGansterPoints($user2);
+        }
+        (int) $cumulativeGansterPoints = $gangster_points->getCumulativeGansterPoints($user2);
+
 
         return [
             'id'=>$this->id,
@@ -31,7 +36,8 @@ class  FollowsResource extends JsonResource
             'username' => $this->username,
             'email'=>$this->email,
             'phone'=>$this->phone,
-            'gangster_points'=>$gangster_points,
+            'gangster_points'=>$cumulativeGansterPoints,
+            'redeemable_points'=>$redeemable_gangster_points,
             'gender'=>$this->gender,
             'birth_date'=>$this->DOB,
             'about'=>$this->about,
