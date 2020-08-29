@@ -66,15 +66,10 @@ class UserAuthController extends Controller
 
     public function userLogin(UserLoginRequest $request)
     {
-        // $input              =       [
-        //     'username'         =>          $request->username,
-        //     'password'      =>          $request->password,
-        // ];
-
+       
         $user_status = User::where('phone', $request->phone)->count();
         if ($user_status > 0) {
              
-                //they sent their username instead 
                 Auth::attempt(['phone' => $request->phone, 'password' => $request->password]);
             
             //was any of those correct ?
