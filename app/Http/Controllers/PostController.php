@@ -634,7 +634,7 @@ class PostController extends Controller
         $usersdetails = User::where('id', $user_id)->withCount('followers')->withCount('followings')->get();
         $userposts_resource = PostResource::collection($posts);
         $usersdetails_resource = FollowsResource::collection($usersdetails);
-        return $usersdetails_resource;
+        
         return response([
             'error' => False,
             'profile' => $usersdetails_resource,
