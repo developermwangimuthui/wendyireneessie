@@ -26,37 +26,27 @@ class UserAuthController extends Controller
     {
 
         // check if email already registered
-        $user  = User::where('email', $request->email)->first();
+        $user  = User::where('phone', $request->phone)->first();
         if (!is_null($user)) {
             return response([
                 'error' => true,
-                'message' => 'Sorry! this email is already registered!',
+                'message' => 'Sorry! this phone number is already registered!',
             ], Response::HTTP_OK);
         } else {
             $user = new User();
-            $user->firstname =  $request->firstname;
-            $user->lastname =  $request->lastname;
-            $user->email =  $request->email;
-            $user->username =  $request->username;
-            $user->profile_pic_path =  $request->profile_pic_path;
             $user->password =  Hash::make($request->password);
             $user->phone = $request->phone;
-            $user->DOB = $request->DOB;
-            $user->gender =  $request->gender;
-            $user->about = $request->about;
 
-            if (!$this->validateString($request->profile_pic_path)) {
-                return response(["message" => "invalid base64 image string!"]);
-            } else {
-                $user->profile_pic_path = $this->moveUploadedFile($request->profile_pic_path, "UserProfilePics");
-                $user->save();
-            }
-
-            return response([
+         if ($user->save()) {
+             return response([
                 'error' => false,
                 'message' => 'You have registered successfully',
                 'user' => new UserRegisterResource($user)
             ], Response::HTTP_CREATED);
+         }  
+          
+
+            
         }
     }
 
@@ -81,15 +71,12 @@ class UserAuthController extends Controller
         //     'password'      =>          $request->password,
         // ];
 
-        $user_status = User::where('username', $request->username)->orwhere('email', $request->username)->count();
+        $user_status = User::where('phone', $request->phone)->count();
         if ($user_status > 0) {
-            if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
-                //user sent their email 
-                Auth::attempt(['email' => $request->username, 'password' => $request->password]);
-            } else {
+             
                 //they sent their username instead 
-                Auth::attempt(['username' => $request->username, 'password' => $request->password]);
-            }
+                Auth::attempt(['phone' => $request->phone, 'password' => $request->password]);
+            
             //was any of those correct ?
             if (Auth::check()) {
 
@@ -103,13 +90,13 @@ class UserAuthController extends Controller
             } else {
                 return response([
                     'error' => true,
-                    'message' => 'Wrong username or password!',
+                    'message' => 'Wrong phone number or password!',
                 ], Response::HTTP_OK);
             }
         } else {
             return response([
                 'error' => true,
-                'message' => 'User with this username not found!',
+                'message' => 'User with this phone number not found!',
             ], Response::HTTP_OK);
         }
     }
