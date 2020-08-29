@@ -40,7 +40,7 @@ class GangsterPointController extends Controller
         $redeemed_points = Payment::where('user_id',$user->id)->pluck('redeemed')->sum();
         $cumulative_points = GangsterPoint::where('user_id',$user->id)->pluck('cumulative_gangster_points')->first();
 
-        $redeemable_points = $cumulative_points- $redeemed_points;
+        $redeemable_points = $cumulative_points - $redeemed_points;
 // dd($redeemable_points);
         $payment= 0;
         $redeemed= 0;
@@ -79,11 +79,15 @@ class GangsterPointController extends Controller
             $newpayment->redeemed=$redeemed;
             $newpayment->amount=$payment;
             if ($newpayment->save()) {
-    
-                return response([
+            $date_made = Payment::where('id',$newpayment->id)->pluck('updated_at')->first();
+            $phone =$user->phone;
+                            return response([
                     'error' => False,
                     'message' => 'You have succesfully redeemed '.number_format($redeemed).' gangsterpoints .Your payment of KSH '.number_format($payment).' will be processed within 4 hours',
-                    
+                    'date_made'=>$date_made->format('d M, yy'),
+                    'time'=>$date_made->format('g:i A'),
+                    'phone'=>$phone,
+                    'amount'=>number_format($payment)
                 ], Response::HTTP_OK);
             }
         }
