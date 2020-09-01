@@ -107,44 +107,64 @@ class UserAuthController extends Controller
                 'message' => 'The username has already been taken.',
             ], Response::HTTP_CREATED);
         } else {
+
             $user = Auth::user();
-            $user->username =  $request->username;
-            $user->phone = $request->phone;
-            $user->DOB = $request->DOB;
-            $user->gender =  $request->gender;
-            $user->about = $request->about;
-            $user->firstname = $request->firstname;
-            $user->lastname = $request->lastname;
+            if ($request->username != null) {
+
+                $user->username =  $request->username;
+            }
+            if ($request->phone != null) {
+
+                $user->phone = $request->phone;
+            }
+            if ($request->DOB != null) {
+
+                $user->DOB = $request->DOB;
+            }
+            if ($request->gender != null) {
+
+                $user->gender =  $request->gender;
+            }
+            if ($request->about != null) {
+
+                $user->about = $request->about;
+            }
+            if ($request->firstname != null) {
+
+                $user->firstname = $request->firstname;
+            }
+            if ($request->lastname != null) {
+
+                $user->lastname = $request->lastname;
+            }
 
             if ($request->password != null) {
                 $user->password = Hash::make($request->password);
             }
-            if ($request->profile_pic_path != null) {
-                if (!$this->validateString($request->profile_pic_path)) {
+
+            if ($request->profile_pic_path != null && $request->profile_pic_path != '') {
+                if ($this->validateString($request->profile_pic_path)) {  // return $request->profile_pic_path ;
+
+                    $user->profile_pic_path = $this->moveUploadedFile($request->profile_pic_path, "UserProfilePics");
+                } else {
                     return response([
                         'error' => true,
                         'message' => 'invalid base64 image string!',
                     ], Response::HTTP_CREATED);
-                } else {
-                    $user->profile_pic_path = $this->moveUploadedFile($request->profile_pic_path, "UserProfilePics");
                 }
-            } else {
-
-                $user->update();
+            }
+            if ($user->update()) {
 
                 return response([
                     'error' => false,
                     'message' => 'Profile updated successfully',
                     'user' => new UserLoginResoure($user)
                 ], Response::HTTP_CREATED);
-            }
-            $user->update();
-
-            return response([
-                'error' => false,
-                'message' => 'Profile updated successfully',
-                'user' => new UserLoginResoure($user)
-            ], Response::HTTP_CREATED);
+            }else {
+                return response([
+                    'error' => true,
+                    'message' => 'Failed to update profile',
+                ], Response::HTTP_CREATED);            }
         }
     }
 
@@ -209,19 +229,19 @@ class UserAuthController extends Controller
                     echo '{"result":"';
                     curl_exec($curl);
                     // if ($result == 'Message Sent: 1701') {
-                        # code...
-                   echo '",
+
+                    echo '",
                         "error" : false,
                         "message" : "Password reset message sent"
                     }';
-                //  }else{
+                    //  }else{
 
-                // return response([
-                //     'error' => true,
-                //     'message' => 'Failed to send message!',
-                // ], Response::HTTP_OK);
-                //  }
-                    
+                    // return response([
+                    //     'error' => true,
+                    //     'message' => 'Failed to send message!',
+                    // ], Response::HTTP_OK);
+                    //  }
+
                 }
             } else {
                 return response([
