@@ -432,6 +432,33 @@ class PostController extends Controller
             }
         }
     }
+    public function deleteMeme(Request $request, $post_id)
+    {
+
+        $postexists = Post::where('id', $post_id)->exists();
+
+        if ($postexists) {
+            $post = Post::find($post_id);
+            if ($post->delete()) {
+
+                return response([
+                    'error' => False,
+                    'message' => 'Post deleted'
+                ], Response::HTTP_OK);
+            } else {
+                return response([
+                    'error' => true,
+                    'message' => 'Post not deleted.',
+                ], Response::HTTP_OK);
+            }
+        }else{
+
+            return response([
+                'error' => true,
+                'message' => 'The post is not found.',
+            ], Response::HTTP_OK);
+        }
+    }
 
     public function postFromRequestPostId($post_id)
     {

@@ -60,5 +60,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/searchSuggestion/{query}', 'PostController@searchSuggestion');
         Route::post('/report-user/{user_id}', 'PostController@reportUser');
         Route::post('/report-post/{post_id}', 'PostController@reportPost');
+        Route::post('/deleteMeme/{post_id}', 'PostController@deleteMeme');
     });
 });
