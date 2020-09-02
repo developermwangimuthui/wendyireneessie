@@ -8,7 +8,7 @@
     <div class="row mt-3">
       <div class="col-12 col-lg-6 col-xl-3">
         <div class="card border-info border-left-sm">
-          <a href="">
+          <a href="{{route('memes.index')}}">
             <div class="card-body">
               <div class="media align-items-center">
                 <div class="media-body text-left">
@@ -24,7 +24,7 @@
       </div>
       <div class="col-12 col-lg-6 col-xl-3">
         <div class="card border-danger border-left-sm">
-          <a href="">
+          <a href="{{route('users.index')}}">
             <div class="card-body">
               <div class="media align-items-center">
                 <div class="media-body text-left">
@@ -40,7 +40,7 @@
       </div>
       <div class="col-12 col-lg-6 col-xl-3">
         <div class="card border-success border-left-sm">
-          <a href="">
+          <a href="{{route('reportedMemes')}}">
             <div class="card-body">
               <div class="media align-items-center">
                 <div class="media-body text-left">
@@ -56,7 +56,7 @@
       </div>
       <div class="col-12 col-lg-6 col-xl-3">
         <div class="card border-warning border-left-sm">
-          <a href="">
+        <a href="{{route('reportedUsers')}}">
             <div class="card-body">
               <div class="media align-items-center">
                 <div class="media-body text-left">

@@ -32,7 +32,7 @@ Auth::routes();
 Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
 // Route::group(['middleware' => 'auth'], function () {
-Route::get('/home/redirectPlayStore/home', 'HomeController@dashboard')->name('home');
+Route::get('/home/2/home', 'HomeController@dashboard')->name('home');
 Route::get('/memes/index', 'HomeController@index')->name('memes.index');
 Route::post('/memes/store', 'HomeController@store')->name('memes.store');
 Route::get('/memes/edit/{id}', 'HomeController@edit')->name('memes.edit');
