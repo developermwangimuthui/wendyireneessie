@@ -13,16 +13,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Auth::routes(['verify' => true, 'register' => false,'login' => false]);
-// Route::match(['get', 'post'], 'login', function(){
-//     return redirect('/');
-// });
-
 Route::get('/', 'HomeController@redirectPlayStore')->name('redirectPlayStore');
 
 
