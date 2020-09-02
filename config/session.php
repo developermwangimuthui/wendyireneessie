@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 240),
+    'lifetime' => env('SESSION_LIFETIME', 120),
 
     'expire_on_close' => false,
 
@@ -156,6 +156,7 @@ return [
     */
 
     'domain' => env('SESSION_DOMAIN', null),
+
     /*
     |--------------------------------------------------------------------------
     | HTTPS Only Cookies
@@ -167,7 +168,8 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE', false), // in case of cookie
+    'secure' => env('SESSION_SECURE_COOKIE'),
+
     /*
     |--------------------------------------------------------------------------
     | HTTP Access Only
