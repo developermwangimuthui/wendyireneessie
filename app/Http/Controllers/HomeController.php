@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth')->except('redirectPlayStore');
     }
 
     /**
@@ -32,8 +32,11 @@ class HomeController extends Controller
     {
         $memes = Post::count();
         $users = User::count();
+        $reportedMemes = Post::where('is_reported')->count();
+        $reportedUsers = User::where('is_reported')->count();
+       
         
-        return view('admin.dashboard.index',compact('memes','users'));
+        return view('admin.dashboard.index',compact('memes','users','reportedMemes','reportedUsers'));
     }
     public function index(Request $request)
     {

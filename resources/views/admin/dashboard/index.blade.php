@@ -44,8 +44,8 @@
             <div class="card-body">
               <div class="media align-items-center">
                 <div class="media-body text-left">
-                <h4 class="text-success mb-0"></h4>
-                  <span>Coming Soon</span>
+                <h4 class="text-success mb-0">{{$reportedMemes}}</h4>
+                  <span>Reported Memes</span>
                 </div>
                 <div class="align-self-center w-circle-icon rounded-circle gradient-quepal">
                   <i class="icon-pie-chart text-white"></i></div>
@@ -60,8 +60,8 @@
             <div class="card-body">
               <div class="media align-items-center">
                 <div class="media-body text-left">
-                <h4 class="text-warning mb-0"></h4>
-                  <span>Coming Soon</span>
+                <h4 class="text-warning mb-0">{{$reportedUsers}}</h4>
+                  <span>Reported Users</span>
                 </div>
                 <div class="align-self-center w-circle-icon rounded-circle gradient-blooker">
                   <i class="icon-user text-white"></i></div>
