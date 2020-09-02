@@ -61,9 +61,9 @@ class Handler extends ExceptionHandler
             
         ], Response::HTTP_OK);
     }     
-    // if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
-    //     return response()->json(['User have not permission for this page access.']);
-    // }
+    if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+        return response()->json(['User have not permission for this page access.']);
+    }
  
     // return parent::render($request, $exception);
     } 

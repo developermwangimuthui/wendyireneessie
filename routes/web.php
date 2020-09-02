@@ -31,7 +31,7 @@ Auth::routes();
 // });
 Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth'], function () {
 Route::get('/home', 'HomeController@dashboard')->name('home');
 Route::get('/memes/index', 'HomeController@index')->name('memes.index');
 Route::post('/memes/store', 'HomeController@store')->name('memes.store');
@@ -68,7 +68,7 @@ Route::delete('/slider/destroy/', 'SliderController@destroy')->name('slider.dest
 
 
 
-});
+// });
 Route::get('/migrate', function () {
     $exitCode = Artisan::call('migrate');
     return 'Success';
