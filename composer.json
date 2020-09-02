@@ -17,9 +17,11 @@
         "laravel/passport": "^9.2",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "laravelcollective/html": "^6.1",
         "overtrue/laravel-follow": "^2.1",
         "overtrue/laravel-like": "^2.0",
         "pbmedia/laravel-ffmpeg": "^7.0",
+        "spatie/laravel-permission": "^3.16",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

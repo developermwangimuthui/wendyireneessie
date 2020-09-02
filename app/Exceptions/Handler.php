@@ -60,7 +60,12 @@ class Handler extends ExceptionHandler
             'data' => $this->apiException($request,$exception),
             
         ], Response::HTTP_OK);
-    } 
+    }     
+    // if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+    //     return response()->json(['User have not permission for this page access.']);
+    // }
+ 
+    // return parent::render($request, $exception);
     } 
 
         

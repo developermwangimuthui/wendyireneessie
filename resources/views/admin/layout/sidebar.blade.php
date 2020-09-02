@@ -8,13 +8,13 @@
   <ul class="sidebar-menu do-nicescrol">
     <li class="sidebar-header">MAIN NAVIGATION</li>
     {{-- @can('view-dashboard') --}}
-    <li>
+    <li class="{{ Route::currentRouteNamed('home') ? 'active ' : '' }}">
       <a href="{{route('home')}}" class="waves-effect">
         <i class="ti-home"></i> <span>Dashboard</span>
       </a>
 
     </li>
-  <li>
+  <li class="{{ Route::currentRouteNamed('memes.index') ? 'active ' : '' }}">
     <a href="{{route('memes.index')}}" class="waves-effect">
         <i class="ti-shopping-cart"></i>
         <span>Meme Management</span>
@@ -22,29 +22,48 @@
 
     </li>
 
-    <li>
+    <li class="{{ Route::currentRouteNamed('reportedMemes') ? 'active ' : '' }}">
+      <a href="{{route('reportedMemes')}}" class="waves-effect">
+          <i class="ti-shopping-cart"></i>
+          <span>Reported Memes</span>
+        </a>
+  
+      </li>
+    <li class="{{ Route::currentRouteNamed('reportedUsers') ? 'active ' : '' }}">
+      <a href="{{route('reportedUsers')}}" class="waves-effect">
+          <i class="ti-shopping-cart"></i>
+          <span>Reported Users</span>
+        </a>
+  
+      </li>
+    {{-- <li class="{{ Route::currentRouteNamed('slider.index') ? 'active ' : '' }}">
       <a href="{{route('slider.index')}}" class="waves-effect">
           <i class="ti-shopping-cart"></i>
           <span>Slider Management</span>
         </a>
   
-      </li>
-       {{--<li>
-    <a href="{{route('product.index')}}" class="waves-effect">
-        <i class="ti-shopping-cart"></i>
-        <span>Product Management</span>
-      </a>
+      </li> --}}
 
-    </li>
+      <li class="{{ Route::currentRouteNamed('users.index') ? 'active ' : '' }}">
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="icon-user"></i>
+          <span>User Management</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+          {{-- @can('manage-users') --}}
   
+          <li class="{{ Route::currentRouteNamed('users.index') ? 'active ' : '' }}"><a href="{{route('users.index')}}"><i class="fa fa-circle-o"></i>User Management</a></li>
+          {{-- @endcan --}}
+  
+          {{-- @can('manage-roles') --}}
+  
+          <li class="{{ Route::currentRouteNamed('roles.index') ? 'active ' : '' }}"><a href="{{route('roles.index')}}"><i class="fa fa-circle-o"></i>Role Management</a></li>
+          {{-- @endcan --}}
+  
+        </ul>
+      </li>
+ 
     
-    <li>
-    <a href="{{route('seo.index')}}" class="waves-effect">
-        <i class="ti-shopping-cart"></i>
-        <span>SEO Management</span>
-      </a>
-
-    </li> --}}
  
 
 

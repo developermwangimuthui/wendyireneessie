@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use App\Post;
 use App\User;
+use App\ReportPost;
 use Yajra\Datatables\Datatables;
 use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
@@ -51,6 +52,44 @@ class HomeController extends Controller
         return view ('admin.memes.index');
 
     }
+    public function reportedMemes(Request $request)
+    {
+//         $reportedMemes = ReportPost::with('posts')->get();
+//  return $reportedMemes;
+        if ($request->ajax()) {
+            $reportedMemes = Post::with('user')->where('posts.is_reported','=',1)->get();
+            return Datatables::of($reportedMemes)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    return '
+                    <a class="btn btn-outline-danger btn-round waves-effect waves-light name="delete" id="' . $data->id . '" onclick="memedelete(\'' . $data->id . '\')"><i class="icon-trash"></i>Delete</a>&nbsp;&nbsp;';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+// dd($categories);
+        return view ('admin.reportedMemes.index');
+
+    }
+    public function reportedUsers(Request $request)
+    {
+//         $reportedMemes = $reportedUsers = User::where('is_reported','=',1)->get();
+//  return $reportedMemes;
+        if ($request->ajax()) {
+            $reportedUsers = User::where('is_reported','=',1)->get();
+            return Datatables::of($reportedUsers)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    return '
+                    <a class="btn btn-outline-danger btn-round waves-effect waves-light name="delete" id="' . $data->id . '" onclick="memedelete(\'' . $data->id . '\')"><i class="icon-trash"></i>Delete</a>&nbsp;&nbsp;';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+// dd($categories);
+        return view ('admin.reportedUsers.index');
+
+    }
     public function memeShow($id)
     {
       if (request()->ajax()) {
@@ -77,6 +116,28 @@ class HomeController extends Controller
             return response([
                 'errors'=>True,
                 'message'=>'Meme  not deleted',
+            ],Response::HTTP_OK);
+        }
+        }
+    
+    }
+    public function userDestroy(Request $request)
+    {
+        
+        if($request->ajax()){
+                $user_id = $request->user_id;
+                // dd($meme_id);
+        $user = User::find($user_id);
+        if ($user) {
+            $user->delete();
+            return response([
+                'success'=>True,
+                'message'=>'MemeLord  deleted Succesfully',
+            ],Response::HTTP_OK);
+        } else {
+            return response([
+                'errors'=>True,
+                'message'=>'MemeLord  not deleted',
             ],Response::HTTP_OK);
         }
         }

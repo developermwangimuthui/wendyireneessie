@@ -60,11 +60,30 @@ Route::post('/slider/store', 'SliderController@store')->name('slider.store');
 Route::get('/slider/edit/{id}', 'SliderController@edit')->name('slider.edit');
 Route::post('/slider/update/{id}', 'SliderController@update')->name('slider.update');
 Route::delete('/slider/destroy/', 'SliderController@destroy')->name('slider.destroy');
+
+    // ..................Reported Posts..............................//
+
+    Route::get('/reported/memes/', 'HomeController@reportedMemes')->name('reportedMemes');
+
+    // ..................Reported Users..............................//
+
+    Route::get('/reported/users/', 'HomeController@reportedUsers')->name('reportedUsers');
+
+    Route::delete('/user/destroy/', 'HomeController@userDestroy')->name('user.destroy');
+
+
+    // ..................Rbac..............................//
+
+    Route::resource('roles', 'RoleController');
+    Route::resource('users', 'UserController');
+
+
 Route::get('/passport/install', function () {
     $exitCode = Artisan::call('passport:install');
     return 'Success';
     // return what you want
 });
+
 
 // });
 Route::get('/migrate', function () {

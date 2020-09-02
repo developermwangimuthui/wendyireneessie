@@ -9,9 +9,12 @@ use Laravel\Passport\HasApiTokens;
 use Overtrue\LaravelLike\Traits\Liker;
 use Overtrue\LaravelFollow\Followable;
 use App\Post;
+use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
     use HasApiTokens,Notifiable;
+    use HasRoles;
 
     use Followable;
     use Liker;
