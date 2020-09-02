@@ -31,6 +31,7 @@
                 <table class="table table-bordered">
                   <tr>
                     {{-- <th>No</th> --}}
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Contacts</th>
                     <th>Roles</th>
@@ -39,6 +40,7 @@
                   @foreach ($data as $key => $user)
                   <tr>
                     {{-- <td>{{ ++$i }}</td> --}}
+                    <td>{{ $user->id }}</td>
                     <td>{{ $user->firstname.''.$user->lastname }}</td>
                     <td>{{ $user->email .''.$user->phone }}</td>
                     <td>

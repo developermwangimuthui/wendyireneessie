@@ -1425,6 +1425,50 @@
         ]
     },
     {
+        "name": "iatstuti/laravel-cascade-soft-deletes",
+        "version": "3.0.0",
+        "version_normalized": "3.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/michaeldyrynda/laravel-cascade-soft-deletes.git",
+            "reference": "b2e13870f7c0f47b6c3db1ec2031f84f37d03794"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/michaeldyrynda/laravel-cascade-soft-deletes/zipball/b2e13870f7c0f47b6c3db1ec2031f84f37d03794",
+            "reference": "b2e13870f7c0f47b6c3db1ec2031f84f37d03794",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/database": "^6.0|^7.0",
+            "illuminate/events": "^6.0|^7.0",
+            "php": "^7.2.5"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^8.0"
+        },
+        "time": "2020-03-06T10:28:12+00:00",
+        "type": "utility",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Iatstuti\\Database\\Support\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dyrynda",
+                "email": "michael@dyrynda.com.au",
+                "homepage": "https://dyrynda.com.au"
+            }
+        ],
+        "description": "Cascading deletes for Eloquent models that implement soft deletes"
+    },
+    {
         "name": "laminas/laminas-diactoros",
         "version": "2.3.0",
         "version_normalized": "2.3.0.0",

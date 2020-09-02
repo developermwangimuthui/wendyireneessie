@@ -167,6 +167,7 @@ class ComposerStaticInit34a8210e505eb0195573a9924074908f
         array (
             'Illuminate\\Foundation\\Auth\\' => 27,
             'Illuminate\\' => 11,
+            'Iatstuti\\Database\\Support\\' => 26,
         ),
         'H' => 
         array (
@@ -494,6 +495,10 @@ class ComposerStaticInit34a8210e505eb0195573a9924074908f
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'Iatstuti\\Database\\Support\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/iatstuti/laravel-cascade-soft-deletes/src',
         ),
         'Http\\Message\\' => 
         array (
@@ -1890,6 +1895,8 @@ class ComposerStaticInit34a8210e505eb0195573a9924074908f
         'Http\\Message\\ResponseFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/ResponseFactory.php',
         'Http\\Message\\StreamFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/StreamFactory.php',
         'Http\\Message\\UriFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/UriFactory.php',
+        'Iatstuti\\Database\\Support\\CascadeSoftDeleteException' => __DIR__ . '/..' . '/iatstuti/laravel-cascade-soft-deletes/src/CascadeSoftDeleteException.php',
+        'Iatstuti\\Database\\Support\\CascadeSoftDeletes' => __DIR__ . '/..' . '/iatstuti/laravel-cascade-soft-deletes/src/CascadeSoftDeletes.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
         'Illuminate\\Auth\\Access\\HandlesAuthorization' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/HandlesAuthorization.php',

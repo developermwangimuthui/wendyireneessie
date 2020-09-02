@@ -10,9 +10,15 @@ use Overtrue\LaravelLike\Traits\Liker;
 use Overtrue\LaravelFollow\Followable;
 use App\Post;
 use Spatie\Permission\Traits\HasRoles;
-
+use Iatstuti\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
+    use SoftDeletes, CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['posts'];
+
+
     use HasApiTokens,Notifiable;
     use HasRoles;
 

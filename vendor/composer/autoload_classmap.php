@@ -1249,6 +1249,8 @@ return array(
     'Http\\Message\\ResponseFactory' => $vendorDir . '/php-http/message-factory/src/ResponseFactory.php',
     'Http\\Message\\StreamFactory' => $vendorDir . '/php-http/message-factory/src/StreamFactory.php',
     'Http\\Message\\UriFactory' => $vendorDir . '/php-http/message-factory/src/UriFactory.php',
+    'Iatstuti\\Database\\Support\\CascadeSoftDeleteException' => $vendorDir . '/iatstuti/laravel-cascade-soft-deletes/src/CascadeSoftDeleteException.php',
+    'Iatstuti\\Database\\Support\\CascadeSoftDeletes' => $vendorDir . '/iatstuti/laravel-cascade-soft-deletes/src/CascadeSoftDeletes.php',
     'Illuminate\\Auth\\Access\\AuthorizationException' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
     'Illuminate\\Auth\\Access\\Gate' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
     'Illuminate\\Auth\\Access\\HandlesAuthorization' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/HandlesAuthorization.php',
