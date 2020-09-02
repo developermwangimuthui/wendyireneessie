@@ -134,7 +134,7 @@ class VerifyCsrfToken
     protected function tokensMatch($request)
     {
         $token = $this->getTokenFromRequest($request);
-
+dd($token);
         return is_string($request->session()->token()) &&
                is_string($token) &&
                hash_equals($request->session()->token(), $token);
