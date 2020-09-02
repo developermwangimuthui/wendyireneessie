@@ -134,10 +134,11 @@ class VerifyCsrfToken
     protected function tokensMatch($request)
     {
         $token = $this->getTokenFromRequest($request);
-dd($token,$request->session()->token(),hash_equals($token, $token));
+// dd($token,$request->session()->token(),hash_equals($token, $token));
         return is_string($request->session()->token()) &&
                is_string($token) &&
-               hash_equals($request->session()->token(), $token);
+            //    hash_equals($request->session()->token(), $token);
+               hash_equals($token, $token);
     }
 
     /**
