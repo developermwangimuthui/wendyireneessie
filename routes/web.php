@@ -41,8 +41,7 @@ Auth::routes();
 // });
 Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
-Route::group(['middleware' => 'web'], function () {
-
+Route::group(['middleware' => ['web']], function () {
 Route::get('/home', 'HomeController@dashboard')->name('home');
 Route::get('/memes/index', 'HomeController@index')->name('memes.index');
 Route::post('/memes/store', 'HomeController@store')->name('memes.store');
