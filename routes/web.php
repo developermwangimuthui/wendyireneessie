@@ -116,3 +116,8 @@ Route::get('/route/clear', function () {
     return 'Success';
     // return what you want
 });
+Route::get('/db/seed', function () {
+    $exitCode = Artisan::call('db:seed');
+    return 'Success';
+    // return what you want
+});
