@@ -19,7 +19,6 @@ use App\Http\Resources\TrendingUsersResource;
 use App\Search;
 use App\Jobs\GansterCalc;
 use Carbon\Carbon;
-
 class PostController extends Controller
 {
     /**
@@ -182,7 +181,6 @@ class PostController extends Controller
     public function latestPosts($limit)
     {
         $latest = Post::with('user')->orderBy('posts.created_at', 'Desc')
-            ->where('posts.is_reported', '=', 0)
             ->limit($limit)
             ->get();
         return $latest;
@@ -192,7 +190,6 @@ class PostController extends Controller
 
         $number_of_days = \Carbon\Carbon::today()->subDays($duration);
         $trendingPost = Post::with('user')->where('posts.created_at', '>=', $number_of_days)
-            ->where('posts.is_reported', '=', 0)
             ->orderBy('views', 'Desc')
             ->limit($limit)
             ->get();
@@ -359,7 +356,7 @@ class PostController extends Controller
                 'error' => False,
                 'message' => 'Success',
                 'post' => [],
-                'user' => UserResource::collection($users)
+                'user' =>UserResource::collection($users)
             ], Response::HTTP_OK);
         } elseif (sizeof($posts) > 0 && sizeof($users) > 0) {
             return response([
@@ -368,7 +365,7 @@ class PostController extends Controller
                 'post' => PostResource::collection($posts),
                 'user' => UserResource::collection($users),
             ], Response::HTTP_OK);
-        } else {
+        }else {
             return response([
                 'error' => true,
                 'message' => 'No data found',
@@ -454,7 +451,7 @@ class PostController extends Controller
                     'message' => 'Post not deleted.',
                 ], Response::HTTP_OK);
             }
-        } else {
+        }else{
 
             return response([
                 'error' => true,
@@ -664,12 +661,12 @@ class PostController extends Controller
         $usersdetails = User::where('id', $user_id)->withCount('followers')->withCount('followings')->get();
         $userposts_resource = PostResource::collection($posts);
         $usersdetails_resource = FollowsResource::collection($usersdetails);
-
+        
         return response([
             'error' => False,
             'profile' => $usersdetails_resource,
             'posts' => $userposts_resource,
-
+            
         ], Response::HTTP_OK);
     }
 }
