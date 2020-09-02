@@ -156,7 +156,6 @@ return [
     */
 
     'domain' => env('SESSION_DOMAIN', null),
-
     /*
     |--------------------------------------------------------------------------
     | HTTPS Only Cookies
@@ -168,8 +167,7 @@ return [
     |
     */
 
-    'secure' => true,
-
+    'secure' => env('SESSION_SECURE_COOKIE', false), // in case of cookie
     /*
     |--------------------------------------------------------------------------
     | HTTP Access Only
