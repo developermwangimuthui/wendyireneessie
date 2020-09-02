@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use App\Exceptions\ExceptionTrait;
 use Symfony\Component\HttpFoundation\Response;
+
 class Handler extends ExceptionHandler
 {
     use ExceptionTrait;
@@ -52,21 +53,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        // return parent::render($request, $exception);
-        if ($request->expectsJson()){
-           return response([
-            'error' => true,
-            'message' => 'Something went Wrong',
-            'data' => $this->apiException($request,$exception),
-            
-        ], Response::HTTP_OK);
-    }     
-    if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
-        return response()->json(['User have not permission for this page access.']);
-    }
- 
-    // return parent::render($request, $exception);
-    } 
+        if ($request->expectsJson()) {
+            return response([
+                'error' => true,
+                'message' => 'Something went Wrong',
+                'data' => $this->apiException($request, $exception),
 
-        
+            ], Response::HTTP_OK);
+        } elseif ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            return response()->json(['User have not permission for this page access.']);
+        } else {
+
+            return parent::render($request, $exception);
+        }
+    }
 }
