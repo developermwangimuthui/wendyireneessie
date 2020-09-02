@@ -4,6 +4,7 @@
 /public/Postimages
 /storage/*.key
 .env.backup
+.env
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
