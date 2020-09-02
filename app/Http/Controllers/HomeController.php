@@ -32,8 +32,8 @@ class HomeController extends Controller
     {
         $memes = Post::count();
         $users = User::count();
-        $reportedMemes = Post::where('is_reported')->count();
-        $reportedUsers = User::where('is_reported')->count();
+        $reportedMemes = Post::where('is_reported','=',1)->count();
+        $reportedUsers = User::where('is_reported','=',1)->count();
        
         
         return view('admin.dashboard.index',compact('memes','users','reportedMemes','reportedUsers'));
