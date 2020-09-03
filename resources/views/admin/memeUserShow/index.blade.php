@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header"><i class="fa fa-table"></i> Memes
-                       
+                    <h5>User:{{$name}}</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -42,6 +42,7 @@
         </div><!-- End Row-->
     </div>
 </div>
+<input type="hidden" name="id" id="user_id" value="{{$id}}">
 
 
 
@@ -90,13 +91,19 @@ $(document).ready(function() {
             $('#word_left').text(40-words);
         }
     });
+
+
  }); 
 
 
+ var id = $('#user_id').val();
+
+console.log(id);   
+ 
         var table = $('#memes_table').DataTable({
         processing: true,
         serverSide: true,    
-        ajax: "{{ route('memes.index')}}",
+        ajax: "{{ URL::to('/meme') }}/poster/"+id+"",
         columns:[
 
         {data: 'action', name: 'action', orderable: false, searchable: false},

@@ -74,6 +74,37 @@ class HomeController extends Controller
         return view ('admin.reportedMemes.index');
 
     }
+    public function memeUserShow(Request $request,$id)
+    {
+        $user = User::find($id);
+        $name = '';
+        if ($user->firstname != null ) {
+            $name = $user->firstname .''.$user->lastname;                 
+        } else if ($user->username != null ) {
+            
+        $name = $user->username; 
+        }else{
+            $name = $user->id;
+        }
+
+        if ($request->ajax()) {
+            $userMemes = Post::with('user')
+            ->where('user_id',$id)
+            ->get();
+
+            return Datatables::of($userMemes)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    return '
+                    <a class="btn btn-outline-danger btn-round waves-effect waves-light name="delete" id="' . $data->id . '" onclick="memedelete(\'' . $data->id . '\')"><i class="icon-trash"></i>Delete</a>&nbsp;&nbsp;';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+// dd($categories);
+        return view ('admin.memeUserShow.index',compact('id','name'));
+
+    }
     public function reportedUsers(Request $request)
     {
 //         $reportedMemes = $reportedUsers = User::where('is_reported','=',1)->get();

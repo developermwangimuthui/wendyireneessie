@@ -49,6 +49,8 @@ Route::post('/slider/store', 'SliderController@store')->name('slider.store');
 Route::get('/slider/edit/{id}', 'SliderController@edit')->name('slider.edit');
 Route::post('/slider/update/{id}', 'SliderController@update')->name('slider.update');
 Route::delete('/slider/destroy/', 'SliderController@destroy')->name('slider.destroy');
+// ......................Individual User Meme..........................//
+Route::get('/meme/poster/{id}', 'HomeController@memeUserShow')->name('memeUserShow');
 
     // ..................Reported Posts..............................//
 
