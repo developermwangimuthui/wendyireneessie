@@ -19,6 +19,7 @@ use App\Http\Resources\TrendingUsersResource;
 use App\Search;
 use App\Jobs\GansterCalc;
 use Carbon\Carbon;
+use App\Http\Controllers\GangsterPointController;
 class PostController extends Controller
 {
     /**
@@ -108,7 +109,8 @@ class PostController extends Controller
 
 
         $posts_results = PostResource::collection($result);
-
+        $calcgangsterPoints = new GangsterPointController();
+        $calcgangsterPoints->calculateGangsterPoints($user);
         GansterCalc::dispatch($user);
         return response([
             'error' => False,

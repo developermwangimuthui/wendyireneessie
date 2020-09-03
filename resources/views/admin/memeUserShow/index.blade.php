@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header"><i class="fa fa-table"></i> Memes
+                    <div class="card-header"><i class="fa fa-table"></i> Single User Memes
                     <h5>User:{{$name}}</h5>
                     </div>
                     <div class="card-body">
