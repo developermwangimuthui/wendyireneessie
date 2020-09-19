@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v2')->group(function () {
     Route::post('/newlogin', 'UserAuthController@userLogin');
     Route::post('/newregister', 'UserAuthController@registerUser');
     Route::post('/anonymousregister', 'UserAuthController@anonymousRegister');  

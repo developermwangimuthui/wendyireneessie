@@ -19,3 +19,4 @@ if (!file_exists($dir.'/autoload.php')) {
 require $dir.'/autoload.php';
 
 exit((new \Carbon\Cli\Invoker())(...$argv) ? 0 : 1);
+
