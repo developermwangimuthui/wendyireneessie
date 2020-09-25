@@ -261,7 +261,7 @@ class PostController extends Controller
     public function trendingHashtags()
     {
         $tags = [];
-        $trendingPost = $this->trending(7, 70);
+        $trendingPost = $this->trending(180, 70);
         $latest = $this->latestPosts(30);
         $posts = $latest->merge($trendingPost);
         foreach ($posts as $post) {
@@ -663,12 +663,12 @@ class PostController extends Controller
         $usersdetails = User::where('id', $user_id)->withCount('followers')->withCount('followings')->get();
         $userposts_resource = PostResource::collection($posts);
         $usersdetails_resource = FollowsResource::collection($usersdetails);
-        
+
         return response([
             'error' => False,
             'profile' => $usersdetails_resource,
             'posts' => $userposts_resource,
-            
+
         ], Response::HTTP_OK);
     }
 }
