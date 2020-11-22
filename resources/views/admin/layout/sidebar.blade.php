@@ -27,21 +27,21 @@
           <i class="ti-shopping-cart"></i>
           <span>Reported Memes</span>
         </a>
-  
+
       </li>
     <li class="{{ Route::currentRouteNamed('reportedUsers') ? 'active ' : '' }}">
       <a href="{{route('reportedUsers')}}" class="waves-effect">
           <i class="ti-shopping-cart"></i>
           <span>Reported Users</span>
         </a>
-  
+
       </li>
     {{-- <li class="{{ Route::currentRouteNamed('slider.index') ? 'active ' : '' }}">
       <a href="{{route('slider.index')}}" class="waves-effect">
           <i class="ti-shopping-cart"></i>
           <span>Slider Management</span>
         </a>
-  
+
       </li> --}}
 
       <li class="{{ Route::currentRouteNamed('users.index') ? 'active ' : '' }}">
@@ -51,20 +51,38 @@
         </a>
         <ul class="sidebar-submenu">
           {{-- @can('manage-users') --}}
-  
+
           <li class="{{ Route::currentRouteNamed('users.index') ? 'active ' : '' }}"><a href="{{route('users.index')}}"><i class="fa fa-circle-o"></i>User Management</a></li>
           {{-- @endcan --}}
-  
+
           {{-- @can('manage-roles') --}}
-  
+
           <li class="{{ Route::currentRouteNamed('roles.index') ? 'active ' : '' }}"><a href="{{route('roles.index')}}"><i class="fa fa-circle-o"></i>Role Management</a></li>
           {{-- @endcan --}}
-  
+
         </ul>
       </li>
- 
-    
- 
+      <li class="{{ Route::currentRouteNamed('adminPayment') ? 'active ' : '' }}">
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="icon-user"></i>
+          <span>Finance Management</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+          {{-- @can('manage-users') --}}
+
+          <li class="{{ Route::currentRouteNamed('adminPayment') ? 'active ' : '' }}"><a href="{{route('adminPayment')}}"><i class="fa fa-circle-o"></i>All  Payment Requests</a></li>
+          <li class="{{ Route::currentRouteNamed('pending.payment') ? 'active ' : '' }}"><a href="{{route('pending.payment')}}"><i class="fa fa-circle-o"></i>Pending Payment</a></li>
+          {{-- @endcan --}}
+
+          {{-- @can('manage-roles') --}}
+
+          <li class="{{ Route::currentRouteNamed('complete.payment') ? 'active ' : '' }}"><a href="{{route('complete.payment')}}"><i class="fa fa-circle-o"></i>Completed Payment</a></li>
+          {{-- @endcan --}}
+
+        </ul>
+      </li>
+
+
 
 
   </ul>

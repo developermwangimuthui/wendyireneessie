@@ -34,8 +34,8 @@ class HomeController extends Controller
         $users = User::count();
         $reportedMemes = Post::where('is_reported','=',1)->count();
         $reportedUsers = User::where('is_reported','=',1)->count();
-       
-        
+
+
         return view('admin.dashboard.index',compact('memes','users','reportedMemes','reportedUsers'));
     }
     public function index(Request $request)
@@ -79,10 +79,10 @@ class HomeController extends Controller
         $user = User::find($id);
         $name = '';
         if ($user->firstname != null ) {
-            $name = $user->firstname .''.$user->lastname;                 
+            $name = $user->firstname .''.$user->lastname;
         } else if ($user->username != null ) {
-            
-        $name = $user->username; 
+
+        $name = $user->username;
         }else{
             $name = $user->id;
         }
@@ -135,29 +135,29 @@ class HomeController extends Controller
     }
     public function memeDestroy(Request $request)
     {
-        
+
         if($request->ajax()){
-                $meme_id = $request->meme_id;
-                // dd($meme_id);
-        $product = Post::find($meme_id);
-        if ($product) {
-            $product->delete();
-            return response([
-                'success'=>True,
-                'message'=>'Meme  deleted Succesfully',
-            ],Response::HTTP_OK);
-        } else {
-            return response([
-                'errors'=>True,
-                'message'=>'Meme  not deleted',
-            ],Response::HTTP_OK);
-        }
-        }
-    
+            $meme_id = $request->meme_id;
+            // dd($meme_id);
+    $product = Post::find($meme_id);
+    if ($product) {
+        $product->delete();
+        return response([
+            'success'=>True,
+            'message'=>'Meme  deleted Succesfully',
+        ],Response::HTTP_OK);
+    } else {
+        return response([
+            'errors'=>True,
+            'message'=>'Meme  not deleted',
+        ],Response::HTTP_OK);
+    }
+    }
+
     }
     public function userDestroy(Request $request)
     {
-        
+
         if($request->ajax()){
                 $user_id = $request->user_id;
                 // dd($meme_id);
@@ -175,7 +175,7 @@ class HomeController extends Controller
             ],Response::HTTP_OK);
         }
         }
-    
+
     }
 
     public function redirectPlayStore(Request $request)
@@ -184,17 +184,17 @@ class HomeController extends Controller
         // $referer = URL::previous();
         $referer = $request->server('HTTP_REFERER');
                 // $referer  = Request::server('HTTP_REFERER');
-                
+
 
                  // dd($referer);
               $clientIP = request()->ip();
-          
+
                 $analytic = new Analytic();
                 $analytic->referring_url = $referer;
                 $analytic->ip_adress = $clientIP;
                 $analytic->save();
-            
-        
+
+
         return Redirect::to('https://play.google.com/store/apps/details?id=com.trichain.kenyasihami');
     }
 }
