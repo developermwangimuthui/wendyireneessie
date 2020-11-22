@@ -71,7 +71,7 @@ class PaymentController extends Controller
             return Datatables::of($all_payments)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    return '<form action="../../payment/approve/" method="post">
+                    return '<form action="../../payment/approve" method="post">
 
                     <input class="form-control" type="text" id="unique_code" required name="unique_code"/>
                     <input class="form-control" type="hidden" required name="payment_id" value="' . $data->id . '"/>

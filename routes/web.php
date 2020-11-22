@@ -32,7 +32,7 @@ Auth::routes();
 Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayStore');
 
 // Route::group(['middleware' => 'auth'], function () {
-    Route::post('/payment/approve/', 'PaymentController@approve')->name('approve.payment');
+    Route::post('/payment/approve', 'PaymentController@approve')->name('approve.payment');
     Route::get('/finance/history', 'PaymentController@webIndex')->name('adminPayment');
     Route::get('/pending/finance/history', 'PaymentController@pending')->name('pending.payment');
     Route::get('/complete/finance/history', 'PaymentController@complete')->name('complete.payment');
