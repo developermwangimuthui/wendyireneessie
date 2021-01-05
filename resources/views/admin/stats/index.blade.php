@@ -58,6 +58,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card border-info border-left-sm">
+                    <a href="#">
+                        <div class="card-body">
+                            <div class="media align-items-center">
+                                <div class="media-body text-left">
+                                    <h4 class="text-info mb-0">{{ $users_posted_today }}</h4>
+                                    <span>Users That Posted Today</span>
+                                </div>
+                                <div class="align-self-center w-circle-icon rounded-circle gradient-scooter">
+                                    <i class="icon-basket-loaded text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
             <!--End Row-->
 
 
