@@ -17,15 +17,12 @@ class StatsController extends Controller
      */
     public function index()
     {
-        $memes = Post::where('created_at', '>=', 'CURRENT_DATE')
-        ->where('created_at', '<', 'CURRENT_DATE + INTERVAL 1 DAY')->count();
-        $users = User::where('created_at', '>=', 'CURRENT_DATE')
-        ->where('created_at', '<', 'CURRENT_DATE + INTERVAL 1 DAY')->count();
-        $onlineusers = Stats::where('created_at', '>=', 'CURRENT_DATE')
-        ->where('created_at', '<', 'CURRENT_DATE + INTERVAL 1 DAY')->count();
+        $memes = Post::where('created_at', 'like', date('Y-m-d').'%')->count();
+        $users = User::where('created_at', 'like',  date('Y-m-d').'%')->count();
+        $onlineusers = Stats::where('created_at', 'like',  date('Y-m-d').'%')->count();
         // $reportedMemes = Post::where('is_reported','=',1)->count();
         // $reportedUsers = User::where('is_reported','=',1)->count();
-
+        // dd ($memes);
 
         return view('admin.stats.index',compact('memes','users','onlineusers'));
     }

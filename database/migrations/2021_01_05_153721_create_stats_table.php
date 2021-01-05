@@ -18,7 +18,7 @@ class CreateStatsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('action')->default('index');
-            $table->integer('api')->default('v1');
+            $table->string('api')->default('v1');
             $table->timestamps();
         });
     }
