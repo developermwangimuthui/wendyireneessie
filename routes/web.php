@@ -38,6 +38,7 @@ Route::get('/meme/{id}','HomeController@redirectPlayStore')->name('redirectPlayS
     Route::get('/complete/finance/history', 'PaymentController@complete')->name('complete.payment');
 
 Route::get('/home/2/home', 'HomeController@dashboard')->name('home');
+Route::get('/stats', 'StatsController@index')->name('stats');
 Route::get('/memes/index', 'HomeController@index')->name('memes.index');
 Route::post('/memes/store', 'HomeController@store')->name('memes.store');
 Route::get('/memes/edit/{id}', 'HomeController@edit')->name('memes.edit');

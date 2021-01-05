@@ -82,7 +82,23 @@
         </ul>
       </li>
 
+      <li class="{{ Route::currentRouteNamed('stats') ? 'active ' : '' }}">
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="icon-user"></i>
+          <span>Stats</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+          {{-- @can('manage-users') --}}
 
+          <li class="{{ Route::currentRouteNamed('stats') ? 'active ' : '' }}"><a href="{{route('stats.daily')}}"><i class="fa fa-circle-o"></i>Recents Statistics</a></li>
+          {{-- @endcan --}}
+
+          {{-- @can('manage-roles') --}}
+
+          {{-- @endcan --}}
+
+        </ul>
+      </li>
 
 
   </ul>
