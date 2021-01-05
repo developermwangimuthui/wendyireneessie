@@ -20,6 +20,8 @@ use App\Search;
 use App\Jobs\GansterCalc;
 use Carbon\Carbon;
 use App\Http\Controllers\GangsterPointController;
+use App\Stats;
+
 class PostController extends Controller
 {
     /**
@@ -106,7 +108,12 @@ class PostController extends Controller
             $remaining_posts = 100 - $total;
             $post_limit += 10;
         }
-
+        //Save statisics
+        $statistics= new Stats();
+        $statistics->user_id=$user->id;
+        $statistics->api='v2';
+        $statistics->action='index';
+        $statistics->save();
 
         $posts_results = PostResource::collection($result);
         $calcgangsterPoints = new GangsterPointController();
