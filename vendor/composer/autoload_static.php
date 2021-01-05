@@ -741,6 +741,7 @@ class ComposerStaticInit34a8210e505eb0195573a9924074908f
         'App\\Share' => __DIR__ . '/../..' . '/app/Share.php',
         'App\\Slider' => __DIR__ . '/../..' . '/app/Slider.php',
         'App\\Stat' => __DIR__ . '/../..' . '/app/Stat.php',
+        'App\\Traits\\UsesUUID' => __DIR__ . '/../..' . '/app/Traits/UsesUUID.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
