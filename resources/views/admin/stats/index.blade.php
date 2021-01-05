@@ -30,7 +30,7 @@
                                 <div class="media align-items-center">
                                     <div class="media-body text-left">
                                         <h4 class="text-danger mb-0">{{ $users }}</h4>
-                                        <span>New Users Today</span>
+                                        <span>Users That Joined Today</span>
                                     </div>
                                     <div class="align-self-center w-circle-icon rounded-circle gradient-bloody">
                                         <i class="icon-wallet text-white"></i>
