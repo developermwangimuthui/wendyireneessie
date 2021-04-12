@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -112,3 +113,6 @@ Route::get('/db/seed', function () {
     return 'Success';
     // return what you want
 });
+Route::get('/tester', 'PostController@sentTestNotification');
+
+

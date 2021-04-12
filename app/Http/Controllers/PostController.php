@@ -21,6 +21,10 @@ use App\Jobs\GansterCalc;
 use Carbon\Carbon;
 use App\Http\Controllers\GangsterPointController;
 use App\Stats;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+use LaravelFCM\Message\Topics;
+use LaravelFCM\Message\PayloadDataBuilder;
 
 class PostController extends Controller
 {
@@ -532,6 +536,7 @@ class PostController extends Controller
 
         if ($post->save()) {
             // ConvertVideoForStreaming::dispatch($post);
+            $this->sendNotification($post);
             return response([
                 'error' => False,
                 'message' => 'Post upload success',
@@ -543,6 +548,61 @@ class PostController extends Controller
                 'message' => 'failed uploading post',
             ], Response::HTTP_OK);
         }
+    }
+
+    public function sendNotification($post){
+
+// imageUrl = data.get("image");
+// memeID = data.get("memeID");
+// userID = data.get("userID");
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['image' => $post->file_path]);
+        $dataBuilder->addData(['memeID' => $post->id]);
+        $dataBuilder->addData(['userID' => $post->user_id]);
+        $data =  $dataBuilder->build();
+        $notificationBuilder = new PayloadNotificationBuilder('4SomeFun');
+        $notificationBuilder->setBody('New Meme')
+                            ->setSound('default');
+
+        $notification = $notificationBuilder->build();
+
+        $topic = new Topics();
+        // $topic->topic('tester');
+        $topic->topic($post->user_id);
+
+        $topicResponse = FCM::sendToTopic($topic, null, null, $data);
+
+        $topicResponse->isSuccess();
+        $topicResponse->shouldRetry();
+        $topicResponse->error();
+    }
+
+    public function sentTestNotification(){
+
+// imageUrl = data.get("image");
+// memeID = data.get("memeID");
+// userID = data.get("userID");
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['image' => 'https://www.kenyasihami.co.ke/Postimages/kenyasihami_75fa96dc8689d8b11608141456.jpg']);
+        $dataBuilder->addData(['memeID' => 'f4ec2fd6-2a01-43e1-b5f8-0c8536186378']);
+        $dataBuilder->addData(['userID' => '13926']);
+        $data =  $dataBuilder->build();
+        $notificationBuilder = new PayloadNotificationBuilder('4SomeFun');
+        // $notificationBuilder->setBody('New Meme')
+        //                     ->setSound('default');
+
+        $notification = $notificationBuilder->build();
+
+        $topic = new Topics();
+        $topic->topic('tester');
+        // $topic->topic($topic);
+
+        $topicResponse = FCM::sendToTopic($topic, null, null, $data);
+
+        $topicResponse->isSuccess();
+        $topicResponse->shouldRetry();
+        $topicResponse->error();
+        return "topicResponse";
     }
 
     public function LikePost($id)
