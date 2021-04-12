@@ -103,6 +103,16 @@ Route::get('/config/clear', function () {
     return 'Success';
     // return what you want
 });
+
+Route::get('/optimize/clear', function () {
+    
+        $exitCode = Artisan::call('optimize:clear');
+
+        return 'Success';
+
+        // return what you want
+
+    });
 Route::get('/route/clear', function () {
     $exitCode = Artisan::call('route:clear');
     return 'Success';

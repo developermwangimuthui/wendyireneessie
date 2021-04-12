@@ -726,7 +726,7 @@ class PostController extends Controller
 
     public function profile($user_id)
     {
-        $posts = Post::where('user_id', $user_id)->withCount('likers')->orderBy('id', 'DESC')->get();
+        $posts = Post::where('user_id', $user_id)->withCount('likers')->orderBy('created_at', 'DESC')->get();
         $usersdetails = User::where('id', $user_id)->withCount('followers')->withCount('followings')->get();
         $userposts_resource = PostResource::collection($posts);
         $usersdetails_resource = FollowsResource::collection($usersdetails);
