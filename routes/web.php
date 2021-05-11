@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,15 @@ Route::get('/', 'HomeController@redirectPlayStore')->name('redirectPlayStore');
 
 Route::get('/privacy-policy', function () {
     return view('privacy-policy');
+});
+
+
+
+Route::get('/.well-known/assetlinks.json', function ()
+{
+    $file = public_path()."/.well-known/assetlinks.json";
+    $headers = array('Content-Type: application/json',);
+    return response()->download($file, 'assetlinks.json',$headers);
 });
 
 
@@ -105,7 +115,7 @@ Route::get('/config/clear', function () {
 });
 
 Route::get('/optimize/clear', function () {
-    
+
         $exitCode = Artisan::call('optimize:clear');
 
         return 'Success';
