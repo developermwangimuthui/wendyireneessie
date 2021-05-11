@@ -33,6 +33,12 @@ Route::get('/.well-known/assetlinks.json', function ()
 });
 
 
+Route::get('/.well-known', function ()
+{
+    return 'success';
+});
+
+
 
 
 Auth::routes();
