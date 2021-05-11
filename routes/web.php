@@ -27,9 +27,10 @@ Route::get('/privacy-policy', function () {
 
 Route::get('/.well-known/assetlinks.json', function ()
 {
-    $file = public_path()."/.well-known/assetlinks.json";
-    $headers = array('Content-Type: application/json',);
-    return response()->download($file, 'assetlinks.json',$headers);
+    return 'success';
+    // $file = public_path()."/.well-known/assetlinks.json";
+    // $headers = array('Content-Type: application/json',);
+    // return response()->download($file, 'assetlinks.json',$headers);
 });
 
 
